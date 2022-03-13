@@ -11,7 +11,7 @@ import java.time.LocalDate;
 public class FoodAndBeverage_Order {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    @Column(name = "individual_order_id")
+    @Column
     private Long id;
     @Column
     private Integer quantity;
@@ -26,6 +26,38 @@ public class FoodAndBeverage_Order {
 
     public FoodAndBeverage_Order(FoodAndBeverage foodAndBeverage, AppUser appUser) {
         this.foodAndBeverage = foodAndBeverage;
+        this.appUser = appUser;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Integer getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(Integer quantity) {
+        this.quantity = quantity;
+    }
+
+    public FoodAndBeverage getFoodAndBeverage() {
+        return foodAndBeverage;
+    }
+
+    public void setFoodAndBeverage(FoodAndBeverage foodAndBeverage) {
+        this.foodAndBeverage = foodAndBeverage;
+    }
+
+    public AppUser getAppUser() {
+        return appUser;
+    }
+
+    public void setAppUser(AppUser appUser) {
         this.appUser = appUser;
     }
 }
