@@ -1,6 +1,8 @@
 package com.capgemini.NightFox.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,8 +12,11 @@ public class LostAndFound {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
+    @NotBlank
     private String name;
+    @NotBlank
     private String description;
+    @NotBlank
     private Boolean fetched;
     @OneToMany (mappedBy = "lostAndFound")
     private List<LostAndFound_Images> lostAndFound_imagesList = new ArrayList<>();

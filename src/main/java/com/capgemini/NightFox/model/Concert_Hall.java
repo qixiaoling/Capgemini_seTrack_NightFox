@@ -1,6 +1,7 @@
 package com.capgemini.NightFox.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,9 +11,13 @@ public class Concert_Hall {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
+    @NotBlank
     private String street;
+    @NotBlank
     private int number;
+    @NotBlank
     private String city;
+
     private String phone;
     private String capacity;
     private Boolean openAir;

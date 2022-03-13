@@ -1,6 +1,7 @@
 package com.capgemini.NightFox.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,7 +11,9 @@ public class FoodAndBeverage {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
+    @NotBlank(message = "The name of the consumption name is mandatory.")
     private String name;
+    @NotBlank (message = "The price of the consumption is mandatory.")
     private Integer price;
     @ManyToOne
     private FoodAndBeverage_Category foodAndBeverage_category;

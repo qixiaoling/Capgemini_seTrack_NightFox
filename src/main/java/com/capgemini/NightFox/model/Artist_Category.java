@@ -1,6 +1,7 @@
 package com.capgemini.NightFox.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import java.util.List;
 
 @Entity
@@ -8,6 +9,7 @@ import java.util.List;
 public class Artist_Category {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @NotBlank(message = "Category name is mandatory")
     private String name;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy =  "artist_category")

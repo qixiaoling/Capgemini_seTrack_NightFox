@@ -1,6 +1,9 @@
 package com.capgemini.NightFox.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -11,8 +14,13 @@ public class AppUser {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
+    @NotBlank(message = "Email is mandatory")
+    @Email
     private String email;
+    @NotBlank(message = "Username is mandatory")
+    @Size(min = 4, message = "Username must be at least of 4 charaters.")
     private String userName;
+    @NotBlank(message = "password is mandatory")
     private String password;
     private AppUserGender gender;
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.DETACH)
