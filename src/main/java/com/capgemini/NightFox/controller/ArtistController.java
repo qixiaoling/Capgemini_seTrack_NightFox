@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping("/")
+@RequestMapping("/Artist")
 public class ArtistController {
 
     private ArtistService artistService;
@@ -18,13 +18,47 @@ public class ArtistController {
         this.artistService = artistService;
     }
 
-    @GetMapping("/getting")
+    @GetMapping("/getAll")
     public ResponseEntity<?> getAllArtist(){
+
         return artistService.getAllArtist();
     }
 
-    @PostMapping("/adding")
+    @GetMapping("/getbyid/{artistId}")
+    public ResponseEntity<?> getArtistById(@PathVariable("artistId") Long id){
+
+        return artistService.getArtistById(id);
+    }
+    @GetMapping("/getbyname/{artistName}")
+    public ResponseEntity<?> getArtistByBandName(@PathVariable("artistName") String bandName){
+
+        return artistService.getArtistByBandName(bandName);
+    }
+
+    @PostMapping("/add")
     public ResponseEntity<?> addArtist(@Valid @RequestBody Artist artist) {
+
         return artistService.addArtist(artist);
     }
+    @PutMapping("/update/{artistId}")
+    public ResponseEntity<?> updateArtisById (@PathVariable("artistId") Long id,
+                                              @Valid @RequestBody Artist artist){
+        return artistService.updateArtisById(id, artist);
+    }
+
+    @DeleteMapping("/delete/{artistId}")
+    public ResponseEntity<?> deleteArtistById(@PathVariable("artistId") Long id){
+        return artistService.deleteArtistById(id);
+    }
+
+
+
+
+
+
+
+
+
+
+
 }
