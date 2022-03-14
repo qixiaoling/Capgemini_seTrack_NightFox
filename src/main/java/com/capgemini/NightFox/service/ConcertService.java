@@ -3,15 +3,14 @@ package com.capgemini.NightFox.service;
 import com.capgemini.NightFox.Exception.NotFoundException;
 import com.capgemini.NightFox.model.Artist;
 import com.capgemini.NightFox.model.Concert;
-import com.capgemini.NightFox.model.Concert_Hall;
+import com.capgemini.NightFox.model.ConcertHall;
 import com.capgemini.NightFox.repository.ArtistRepository;
 import com.capgemini.NightFox.repository.ConcertRepository;
-import com.capgemini.NightFox.repository.Concert_HallRepository;
+import com.capgemini.NightFox.repository.ConcertHallRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import javax.swing.text.html.Option;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -21,13 +20,13 @@ public class ConcertService {
 
     private ArtistRepository artistRepository;
     private ConcertRepository concertRepository;
-    private Concert_HallRepository concert_hallRepository;
+    private ConcertHallRepository concertHallRepository;
 
     @Autowired
-    public ConcertService(ArtistRepository artistRepository, ConcertRepository concertRepository, Concert_HallRepository concert_hallRepository) {
+    public ConcertService(ArtistRepository artistRepository, ConcertRepository concertRepository, ConcertHallRepository concertHallRepository) {
         this.artistRepository = artistRepository;
         this.concertRepository = concertRepository;
-        this.concert_hallRepository = concert_hallRepository;
+        this.concertHallRepository = concertHallRepository;
     }
 
 
@@ -43,16 +42,16 @@ public class ConcertService {
     }
 
     public ResponseEntity<?> addConcertHallToArtist(Long artistId, Long concertHallId){
-        Concert_Hall concert_hall = concert_hallRepository.findConcert_HallById(concertHallId);
+        ConcertHall concert_hall = concertHallRepository.findConcert_HallById(concertHallId);
         Optional<Artist> possibleArtist = artistRepository.findById(artistId);
         if(possibleArtist.isPresent()){
-            Concert concert = concertRepository.findByArtistAndConcert_Hall(possibleArtist.get(), concert_hall);
+            Concert concert = concertRepository.findByArtistAndConcertHall(possibleArtist.get(), concert_hall);
             if(concert != null){
                 return ResponseEntity.badRequest().body("This concert hall is already added to the artist. ");
             }else{
                 Concert concert_added = new Concert(possibleArtist.get(), concert_hall);
                 concert_added.setArtist(possibleArtist.get());
-                concert_added.setConcert_hall(concert_hall);
+                concert_added.setConcertHall(concert_hall);
                 concertRepository.save(concert_added);
                 return ResponseEntity.ok().body("The concert hall is successfully added.");
             }
@@ -62,10 +61,10 @@ public class ConcertService {
     }
 
     public ResponseEntity<?> addConcertDetailedInfo(Long artistId, Long concertHallId, Concert dataConcert){
-        Concert_Hall concert_hall = concert_hallRepository.findConcert_HallById(concertHallId);
+        ConcertHall concert_hall = concertHallRepository.findConcert_HallById(concertHallId);
         Optional<Artist> possibleArtist = artistRepository.findById(artistId);
         if(possibleArtist.isPresent()){
-            Concert concert = concertRepository.findByArtistAndConcert_Hall(possibleArtist.get(), concert_hall);
+            Concert concert = concertRepository.findByArtistAndConcertHall(possibleArtist.get(), concert_hall);
             concert.setPrice(dataConcert.getPrice());
             concert.setTime(dataConcert.getTime());
             concert.setDescription(dataConcert.getDescription());
@@ -77,10 +76,10 @@ public class ConcertService {
     }
 
     public ResponseEntity<?> deleteConcertById(Long artistId, Long concertHallId){
-        Concert_Hall concert_hall = concert_hallRepository.findConcert_HallById(concertHallId);
+        ConcertHall concert_hall = concertHallRepository.findConcert_HallById(concertHallId);
         Optional<Artist> possibleArtist = artistRepository.findById(artistId);
         if(possibleArtist.isPresent()){
-            concertRepository.deleteByArtistAndConcert_Hall(possibleArtist.get(), concert_hall);
+            concertRepository.deleteByArtistAndConcertHall(possibleArtist.get(), concert_hall);
             return ResponseEntity.ok().body("Concert successfully deleted.");
         }
         throw new NotFoundException(

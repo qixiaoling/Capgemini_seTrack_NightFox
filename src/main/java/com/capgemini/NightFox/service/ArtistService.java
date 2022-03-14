@@ -68,6 +68,14 @@ public class ArtistService {
         throw new NotFoundException(
                 "Artist id: " + id + "does not exists.");
     }
+    public ResponseEntity<?> getArtistByBandName(String bandName) {
+        Optional<Artist> possibleArtist = artistRepository.findByBandName(bandName);
+        if(possibleArtist.isPresent()){
+            return ResponseEntity.ok().body(possibleArtist.get());
+        }
+        throw new NotFoundException(
+                "Artist name: " + bandName + "does not exists.");
+    }
 
     public ResponseEntity<?> updateArtisById(Long id, Artist artist) {
         Optional<Artist> possibleArtist = artistRepository.findById(id);
