@@ -12,9 +12,11 @@ public class Concert_Hall {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
     @NotBlank
+    private String hallName;
+    @NotBlank
     private String street;
     @NotBlank
-    private int number;
+    private Integer number;
     @NotBlank
     private String city;
 
@@ -27,7 +29,9 @@ public class Concert_Hall {
     public Concert_Hall() {
     }
 
-    public Concert_Hall(String street, int number, String city, String phone, String capacity, Boolean openAir) {
+    public Concert_Hall(String hallName, String street, Integer number, String city, String phone,
+                        String capacity, Boolean openAir) {
+        this.hallName = hallName;
         this.street = street;
         this.number = number;
         this.city = city;
@@ -52,11 +56,11 @@ public class Concert_Hall {
         this.street = street;
     }
 
-    public int getNumber() {
+    public Integer getNumber() {
         return number;
     }
 
-    public void setNumber(int number) {
+    public void setNumber(Integer number) {
         this.number = number;
     }
 
@@ -98,5 +102,13 @@ public class Concert_Hall {
 
     public void setConcerts(List<Concert> concerts) {
         this.concerts = concerts;
+    }
+
+    public String getHallName() {
+        return hallName;
+    }
+
+    public void setHallName(String hallName) {
+        this.hallName = hallName;
     }
 }
