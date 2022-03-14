@@ -11,10 +11,8 @@ import java.util.List;
 @Table
 @EqualsAndHashCode
 public class Concert {
-    @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    @Column(name = "individual_concert_id")
-    private Long id;
+    @EmbeddedId
+    private ArtistConcertHallId id;
     @Column
     private Double price;
     @Column
@@ -37,13 +35,14 @@ public class Concert {
     public Concert(Artist artist, Concert_Hall concert_hall) {
         this.artist = artist;
         this.concert_hall = concert_hall;
+        this.id = new ArtistConcertHallId(artist.getId(), concert_hall.getId());
     }
 
-    public Long getId() {
+    public ArtistConcertHallId getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(ArtistConcertHallId id) {
         this.id = id;
     }
 
