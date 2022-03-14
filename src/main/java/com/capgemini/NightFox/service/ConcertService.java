@@ -61,6 +61,32 @@ public class ConcertService {
                 "The artist id: " + artistId + "does not exist.");
     }
 
+    public ResponseEntity<?> addConcertDetailedInfo(Long artistId, Long concertHallId, Concert dataConcert){
+        Concert_Hall concert_hall = concert_hallRepository.findConcert_HallById(concertHallId);
+        Optional<Artist> possibleArtist = artistRepository.findById(artistId);
+        if(possibleArtist.isPresent()){
+            Concert concert = concertRepository.findByArtistAndConcert_Hall(possibleArtist.get(), concert_hall);
+            concert.setPrice(dataConcert.getPrice());
+            concert.setTime(dataConcert.getTime());
+            concert.setDescription(dataConcert.getDescription());
+            concertRepository.save(concert);
+            return ResponseEntity.ok().body("Concert information is updated.");
+        }
+        throw new NotFoundException(
+                "The artist id: " + artistId + "does not exist.");
+    }
+
+    public ResponseEntity<?> deleteConcertById(Long artistId, Long concertHallId){
+        Concert_Hall concert_hall = concert_hallRepository.findConcert_HallById(concertHallId);
+        Optional<Artist> possibleArtist = artistRepository.findById(artistId);
+        if(possibleArtist.isPresent()){
+            concertRepository.deleteByArtistAndConcert_Hall(possibleArtist.get(), concert_hall);
+            return ResponseEntity.ok().body("Concert successfully deleted.");
+        }
+        throw new NotFoundException(
+                "The artist id: " + artistId + "does not exist.");
+    }
+
 
 
 
