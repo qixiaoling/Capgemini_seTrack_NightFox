@@ -11,10 +11,10 @@ import java.util.List;
 
 @Repository
 public interface ConcertRepository extends JpaRepository <Concert, ArtistConcertHallId> {
-    List<Concert> findByArtist(Artist artist);
+//    List<Concert> findByArtist(Artist artist);
 //    Concert findByArtistAndConcert_Hall(Artist artist, Concert_Hall concert_hall);
 //    void deleteByArtistAndConcert_Hall(Artist artist, Concert_Hall concert_hall);
     @Override
-    void deleteById(ArtistConcertHallId artistConcertHallId);
+    void deleteById(ArtistConcertHallId id);
 
 }

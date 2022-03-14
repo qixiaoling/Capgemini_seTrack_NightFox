@@ -24,7 +24,7 @@ public class Artist {
     private List<Artist_Images> artist_imagesList = new ArrayList<>();
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "artist")
-    private List<Concert> concerts = new ArrayList<>();
+    private List<Concert> concertHallNewList = new ArrayList<>();
 
     public Artist() {
     }
@@ -75,11 +75,11 @@ public class Artist {
         this.artist_imagesList = artist_imagesList;
     }
 
-    public List<Concert> getConcerts() {
-        return concerts;
+    public List<Concert> getConcertHallNewList() {
+        return concertHallNewList;
     }
 
-    public void setConcerts(List<Concert> concerts) {
-        this.concerts = concerts;
+    public void setConcertHallNewList(List<Concert> concertHallNewList) {
+        this.concertHallNewList = concertHallNewList;
     }
 }

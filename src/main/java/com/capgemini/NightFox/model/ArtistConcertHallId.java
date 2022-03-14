@@ -26,15 +26,10 @@ public class ArtistConcertHallId implements Serializable {
         return artistId;
     }
 
-    public void setArtistId(Long artistId) {
-        this.artistId = artistId;
-    }
 
     public Long getConcertHallId() {
         return concertHallId;
     }
 
-    public void setConcertHallId(Long concertHallId) {
-        this.concertHallId = concertHallId;
-    }
+
 }

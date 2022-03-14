@@ -31,15 +31,30 @@ public class ConcertService {
     }
 
 
-    public ResponseEntity<?> getAllConcertByArtistId(Long id) {
-        Optional<Artist> possibleArtist = artistRepository.findById(id);
-        if(possibleArtist.isPresent()){
-            List<Concert> concertList = new ArrayList<>();
-            concertList.addAll(concertRepository.findByArtist(possibleArtist.get()));
-            return ResponseEntity.ok().body(concertList);
+//    public ResponseEntity<?> getAllConcertByArtistId(Long id) {
+//        Optional<Artist> possibleArtist = artistRepository.findById(id);
+//        if(possibleArtist.isPresent()){
+//            List<Concert> concertList = new ArrayList<>();
+//            concertList.addAll(concertRepository.findByArtist(possibleArtist.get()));
+//            return ResponseEntity.ok().body(concertList);
+//        }
+//        throw new NotFoundException(
+//                "Artist id: " + id + "does not exist.");
+//    }
+
+    public ResponseEntity<?> addConcertHallToArtist (Long artistId, Concert_Hall concert_hall) {
+        Optional<Artist> possibleArtist = artistRepository.findById(artistId);
+        if (possibleArtist.isPresent()) {
+            Concert concert = new Concert(possibleArtist.get(), concert_hall);
+            possibleArtist.get().getConcertHallNewList().add(concert);
+            concert_hall.getArtistNewList().add(concert);
+            artistRepository.save(possibleArtist.get());
+            concert_hallRepository.save(concert_hall);
+            concertRepository.save(concert);
+            return ResponseEntity.ok().body("This concert hall is added to the artist.");
         }
         throw new NotFoundException(
-                "Artist id: " + id + "does not exist.");
+                "Artist id: " + artistId + "does not exist.");
     }
 
 //    public ResponseEntity<?> addConcertHallToArtist(Long artistId, Long concertHallId){
