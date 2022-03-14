@@ -10,5 +10,6 @@ import java.util.Optional;
 public interface Concert_HallRepository extends JpaRepository <Concert_Hall, Long> {
 
     Optional<Concert_Hall> findById(Long id);
+    Concert_Hall findConcert_HallById(Long id);
     boolean existsByHallName(String hallName);
 }

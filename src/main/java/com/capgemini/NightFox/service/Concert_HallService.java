@@ -42,7 +42,7 @@ public class Concert_HallService {
             return ResponseEntity.ok().body(possibleConcert_Hall.get());
         }
         throw new NotFoundException(
-                "The Concert hall id: " + id + "does not exists.");
+                "The Concert hall id: " + id + "does not exist.");
     }
 
     public ResponseEntity<?> updateConcert_HallById(Long id, Concert_Hall concert_hall){
@@ -59,7 +59,7 @@ public class Concert_HallService {
             return ResponseEntity.ok().body("The concert hall is successfully updated.");
         }
         throw new NotFoundException(
-                "The concert hall id: "+ id + "does not exists.");
+                "The concert hall id: "+ id + "does not exist.");
     }
 
     public ResponseEntity<?> deleteConcert_HallById(Long id) {
@@ -69,7 +69,7 @@ public class Concert_HallService {
             return ResponseEntity.ok().body("The concert hall is successfully deleted.");
         }
         throw new NotFoundException(
-                "The concert hall id: " + id + "does not exists.");
+                "The concert hall id: " + id + "does not exist.");
     }
 
 
