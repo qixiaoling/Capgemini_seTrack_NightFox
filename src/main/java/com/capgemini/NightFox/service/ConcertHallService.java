@@ -16,55 +16,55 @@ import java.util.Optional;
 public class ConcertHallService {
     private ConcertHallRepository concertHallRepository;
     @Autowired
-    public ConcertHallService(ConcertHallRepository concert_hallRepository) {
-        this.concertHallRepository = concert_hallRepository;
+    public ConcertHallService(ConcertHallRepository concertHallRepository) {
+        this.concertHallRepository = concertHallRepository;
     }
 
-    public ResponseEntity<?> getAllConcert_Halls(){
-        List<ConcertHall> concert_halls = new ArrayList<>();
-        concertHallRepository.findAll().forEach(concert_halls::add);
-        return ResponseEntity.ok().body(concert_halls);
+    public ResponseEntity<?> getAllConcertHalls(){
+        List<ConcertHall> concertHalls = new ArrayList<>();
+        concertHallRepository.findAll().forEach(concertHalls::add);
+        return ResponseEntity.ok().body(concertHalls);
     }
 
-    public ResponseEntity<?> addConcert_Hall(ConcertHall concert_hall) {
-        boolean existName = concertHallRepository.existsByHallName(concert_hall.getHallName());
+    public ResponseEntity<?> addConcertHall(ConcertHall concertHall) {
+        boolean existName = concertHallRepository.existsByHallName(concertHall.getHallName());
         if(existName){
             throw new BadRequestException(
-                    "Concert hall: " + concert_hall.getHallName() +  "exist already.");
+                    "Concert hall: " + concertHall.getHallName() +  "exist already.");
         }
-        concertHallRepository.save(concert_hall);
+        concertHallRepository.save(concertHall);
         return ResponseEntity.ok().body("This concert hall is added.");
     }
 
-    public ResponseEntity<?> getConcert_HallById(Long id) {
-        Optional <ConcertHall> possibleConcert_Hall = concertHallRepository.findById(id);
-        if(possibleConcert_Hall.isPresent()){
-            return ResponseEntity.ok().body(possibleConcert_Hall.get());
+    public ResponseEntity<?> getConcertHallById(Long id) {
+        Optional <ConcertHall> possibleConcertHall = concertHallRepository.findById(id);
+        if(possibleConcertHall.isPresent()){
+            return ResponseEntity.ok().body(possibleConcertHall.get());
         }
         throw new NotFoundException(
                 "The Concert hall id: " + id + "does not exist.");
     }
 
-    public ResponseEntity<?> updateConcert_HallById(Long id, ConcertHall concert_hall){
-        Optional<ConcertHall> possibleConcert_Hall = concertHallRepository.findById(id);
-        if(possibleConcert_Hall.isPresent()){
-            possibleConcert_Hall.get().setHallName(concert_hall.getHallName());
-            possibleConcert_Hall.get().setStreet(concert_hall.getStreet());
-            possibleConcert_Hall.get().setNumber(concert_hall.getNumber());
-            possibleConcert_Hall.get().setCity(concert_hall.getCity());
-            possibleConcert_Hall.get().setPhone(concert_hall.getPhone());
-            possibleConcert_Hall.get().setCapacity(concert_hall.getCapacity());
-            possibleConcert_Hall.get().setOpenAir(concert_hall.getOpenAir());
-            concertHallRepository.save(possibleConcert_Hall.get());
+    public ResponseEntity<?> updateConcertHallById(Long id, ConcertHall concertHall){
+        Optional<ConcertHall> possibleConcertHall = concertHallRepository.findById(id);
+        if(possibleConcertHall.isPresent()){
+            possibleConcertHall.get().setHallName(concertHall.getHallName());
+            possibleConcertHall.get().setStreet(concertHall.getStreet());
+            possibleConcertHall.get().setNumber(concertHall.getNumber());
+            possibleConcertHall.get().setCity(concertHall.getCity());
+            possibleConcertHall.get().setPhone(concertHall.getPhone());
+            possibleConcertHall.get().setCapacity(concertHall.getCapacity());
+            possibleConcertHall.get().setOpenAir(concertHall.getOpenAir());
+            concertHallRepository.save(possibleConcertHall.get());
             return ResponseEntity.ok().body("The concert hall is successfully updated.");
         }
         throw new NotFoundException(
                 "The concert hall id: "+ id + "does not exist.");
     }
 
-    public ResponseEntity<?> deleteConcert_HallById(Long id) {
-        Optional<ConcertHall> possibleConcert_Hall = concertHallRepository.findById(id);
-        if(possibleConcert_Hall.isPresent()){
+    public ResponseEntity<?> deleteConcertHallById(Long id) {
+        Optional<ConcertHall> possibleConcertHall = concertHallRepository.findById(id);
+        if(possibleConcertHall.isPresent()){
             concertHallRepository.deleteById(id);
             return ResponseEntity.ok().body("The concert hall is successfully deleted.");
         }

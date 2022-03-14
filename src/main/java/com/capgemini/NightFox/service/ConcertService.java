@@ -29,8 +29,13 @@ public class ConcertService {
         this.concertHallRepository = concertHallRepository;
     }
 
+    public ResponseEntity<?> getAllConcerts(){
+        List<Concert> concerts = new ArrayList<>();
+        concertRepository.findAll().forEach(concerts::add);
+        return ResponseEntity.ok().body(concerts);
+    }
 
-    public ResponseEntity<?> getAllConcertByArtistId(Long id) {
+    public ResponseEntity<?> getAllConcertsByArtistId(Long id) {
         Optional<Artist> possibleArtist = artistRepository.findById(id);
         if(possibleArtist.isPresent()){
             List<Concert> concertList = new ArrayList<>();
@@ -61,10 +66,10 @@ public class ConcertService {
     }
 
     public ResponseEntity<?> addConcertDetailedInfo(Long artistId, Long concertHallId, Concert dataConcert){
-        ConcertHall concert_hall = concertHallRepository.findConcert_HallById(concertHallId);
+        ConcertHall concertHall = concertHallRepository.findConcert_HallById(concertHallId);
         Optional<Artist> possibleArtist = artistRepository.findById(artistId);
         if(possibleArtist.isPresent()){
-            Concert concert = concertRepository.findByArtistAndConcertHall(possibleArtist.get(), concert_hall);
+            Concert concert = concertRepository.findByArtistAndConcertHall(possibleArtist.get(), concertHall);
             concert.setPrice(dataConcert.getPrice());
             concert.setTime(dataConcert.getTime());
             concert.setDescription(dataConcert.getDescription());
@@ -76,10 +81,10 @@ public class ConcertService {
     }
 
     public ResponseEntity<?> deleteConcertById(Long artistId, Long concertHallId){
-        ConcertHall concert_hall = concertHallRepository.findConcert_HallById(concertHallId);
+        ConcertHall concertHall = concertHallRepository.findConcert_HallById(concertHallId);
         Optional<Artist> possibleArtist = artistRepository.findById(artistId);
         if(possibleArtist.isPresent()){
-            concertRepository.deleteByArtistAndConcertHall(possibleArtist.get(), concert_hall);
+            concertRepository.deleteByArtistAndConcertHall(possibleArtist.get(), concertHall);
             return ResponseEntity.ok().body("Concert successfully deleted.");
         }
         throw new NotFoundException(
