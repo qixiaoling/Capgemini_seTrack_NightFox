@@ -13,6 +13,6 @@ public interface ConcertRepository extends JpaRepository <Concert, Long> {
     List<Concert> findByArtist(Artist artist);
     Concert findByArtistAndConcert_Hall(Artist artist, Concert_Hall concert_hall);
     void deleteByArtistAndConcert_Hall(Artist artist, Concert_Hall concert_hall);
-//    void deleteConcertByArtistAndConcert_Hall(Artist artist, Concert_Hall concert_hall);
+
 
 }
