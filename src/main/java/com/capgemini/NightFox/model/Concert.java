@@ -20,10 +20,12 @@ public class Concert {
     @Column
     private LocalDate time;
 
-    @ManyToOne (fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToOne (fetch = FetchType.EAGER)
+    @MapsId("artistId")
     private Artist artist;
 
-    @ManyToOne (fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToOne (fetch = FetchType.EAGER)
+    @MapsId("concertHallId")
     private Concert_Hall concert_hall;
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "concert")

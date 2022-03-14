@@ -2,6 +2,7 @@ package com.capgemini.NightFox.service;
 
 import com.capgemini.NightFox.Exception.NotFoundException;
 import com.capgemini.NightFox.model.Artist;
+import com.capgemini.NightFox.model.ArtistConcertHallId;
 import com.capgemini.NightFox.model.Concert;
 import com.capgemini.NightFox.model.Concert_Hall;
 import com.capgemini.NightFox.repository.ArtistRepository;
@@ -55,6 +56,23 @@ public class ConcertService {
         }
         throw new NotFoundException(
                 "Artist id: " + artistId + "does not exist.");
+    }
+
+    public ResponseEntity<?> getAllConcerts(){
+        List<Concert> concertList = new ArrayList<>();
+        concertRepository.findAll().forEach(concertList::add);
+        return ResponseEntity.ok().body(concertList);
+    }
+
+    public ResponseEntity<?> deleteConcertById(ArtistConcertHallId id){
+        Optional<Concert> possibleConcert = concertRepository.findById(id);
+        if(possibleConcert.isPresent()){
+            concertRepository.deleteById(id);
+            return ResponseEntity.ok().body("The concert is successfully deleted.");
+        }
+        throw new NotFoundException(
+                "The concert hall id: " + id + "does not exist.");
+
     }
 
 //    public ResponseEntity<?> addConcertHallToArtist(Long artistId, Long concertHallId){
