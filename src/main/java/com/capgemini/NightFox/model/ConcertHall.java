@@ -7,7 +7,7 @@ import java.util.List;
 
 @Entity
 @Table
-public class Concert_Hall {
+public class ConcertHall {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
@@ -23,14 +23,14 @@ public class Concert_Hall {
     private String phone;
     private String capacity;
     private Boolean openAir;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "concert_hall")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "concertHall")
     private List<Concert> concerts = new ArrayList<>();
 
-    public Concert_Hall() {
+    public ConcertHall() {
     }
 
-    public Concert_Hall(String hallName, String street, Integer number, String city, String phone,
-                        String capacity, Boolean openAir) {
+    public ConcertHall(String hallName, String street, Integer number, String city, String phone,
+                       String capacity, Boolean openAir) {
         this.hallName = hallName;
         this.street = street;
         this.number = number;
@@ -46,6 +46,14 @@ public class Concert_Hall {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getHallName() {
+        return hallName;
+    }
+
+    public void setHallName(String hallName) {
+        this.hallName = hallName;
     }
 
     public String getStreet() {
@@ -102,13 +110,5 @@ public class Concert_Hall {
 
     public void setConcerts(List<Concert> concerts) {
         this.concerts = concerts;
-    }
-
-    public String getHallName() {
-        return hallName;
-    }
-
-    public void setHallName(String hallName) {
-        this.hallName = hallName;
     }
 }
