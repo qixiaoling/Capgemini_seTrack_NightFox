@@ -12,7 +12,7 @@ import java.util.List;
 public interface Concert_TicketRepository extends JpaRepository <Concert_Ticket, Long> {
 
     List<Concert_Ticket> findByAppUser(AppUser appUser);
-    Concert_Ticket findByAppUserAndConcert(AppUser appUser, Concert Concert);
-    void deleteConcert_TicketByAppUserAndConcert(AppUser appUser, Concert concert);
+//    Concert_Ticket findByAppUserAndConcert(AppUser appUser, Concert Concert);
+//    void deleteConcert_TicketByAppUserAndConcert(AppUser appUser, Concert concert);
 
 }

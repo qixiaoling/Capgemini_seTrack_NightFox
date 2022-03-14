@@ -1,6 +1,8 @@
 package com.capgemini.NightFox.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,6 +12,8 @@ public class Artist {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
+    @NotBlank  (message = "Band name is mandatory.")
+    @Size(min = 3, max = 20)
     private String bandName;
     private String description;
 

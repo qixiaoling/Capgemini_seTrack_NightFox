@@ -16,7 +16,7 @@ public class Concert {
     @Column(name = "individual_concert_id")
     private Long id;
     @Column
-    private Integer price;
+    private Double price;
     @Column
     private String description;
     @Column
@@ -47,11 +47,11 @@ public class Concert {
         this.id = id;
     }
 
-    public Integer getPrice() {
+    public Double getPrice() {
         return price;
     }
 
-    public void setPrice(Integer price) {
+    public void setPrice(Double price) {
         this.price = price;
     }
 

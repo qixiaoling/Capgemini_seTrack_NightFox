@@ -12,9 +12,9 @@ import java.util.List;
 public interface FoodAndBeverage_OrderRepository extends JpaRepository <FoodAndBeverage_Order, Long> {
 
         List<FoodAndBeverage_Order> findByAppUser(AppUser appUser);
-        FoodAndBeverage_Order findByAppUserAndFoodAndBeverage(AppUser appUser, FoodAndBeverage foodAndBeverage);
-
-        void deleteByAppUserAndFoodAndBeverage(AppUser appUser, FoodAndBeverage foodAndBeverage);
+//        FoodAndBeverage_Order findByAppUserAndFoodAndBeverage(AppUser appUser, FoodAndBeverage foodAndBeverage);
+//
+//        void deleteByAppUserAndFoodAndBeverage(AppUser appUser, FoodAndBeverage foodAndBeverage);
 
 
 }
