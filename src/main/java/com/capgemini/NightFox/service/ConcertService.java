@@ -45,6 +45,16 @@ public class ConcertService {
         throw new NotFoundException(
                 "Artist id: " + id + "does not exist.");
     }
+    public ResponseEntity<?> getAllConcertsByArtistBandName(String bandName) {
+        Optional<Artist> possibleArtist = artistRepository.findByBandName(bandName);
+        if(possibleArtist.isPresent()){
+            List<Concert> concertList = new ArrayList<>();
+            concertList.addAll(concertRepository.findByArtist(possibleArtist.get()));
+            return ResponseEntity.ok().body(concertList);
+        }
+        throw new NotFoundException(
+                "Artist id: " + bandName + "does not exist.");
+    }
 
     public ResponseEntity<?> addConcertHallToArtist(Long artistId, Long concertHallId){
         ConcertHall concert_hall = concertHallRepository.findConcert_HallById(concertHallId);

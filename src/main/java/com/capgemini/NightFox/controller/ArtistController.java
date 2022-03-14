@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping("/Artist")
+@RequestMapping("/artist")
 public class ArtistController {
 
     private ArtistService artistService;
@@ -18,7 +18,7 @@ public class ArtistController {
         this.artistService = artistService;
     }
 
-    @GetMapping("/getAll")
+    @GetMapping("/getall")
     public ResponseEntity<?> getAllArtist(){
 
         return artistService.getAllArtist();
