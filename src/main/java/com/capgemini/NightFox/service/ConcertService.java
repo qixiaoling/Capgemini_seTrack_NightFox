@@ -49,12 +49,12 @@ public class ConcertService {
                 "Artist id: " + id + "does not exist.");
     }
 
-    public ResponseEntity<?> getAllConcertsByArtistBandName(String bandName) {
+    public List<Concert> getAllConcertsByArtistBandName(String bandName) {
         Optional<Artist> possibleArtist = artistRepository.findByBandName(bandName);
         if (possibleArtist.isPresent()) {
             List<Concert> concertList = new ArrayList<>();
             concertList.addAll(concertRepository.findByArtist(possibleArtist.get()));
-            return ResponseEntity.ok().body(concertList);
+            return concertList;
         }
         throw new NotFoundException(
                 "Artist name: " + bandName + "does not exist.");

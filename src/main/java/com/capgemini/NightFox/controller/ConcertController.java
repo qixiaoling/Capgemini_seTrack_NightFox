@@ -36,7 +36,8 @@ public class ConcertController {
     @GetMapping("/getbyname/{artistName}")
     public ResponseEntity<?> getAllConcertsByArtistBandName(@PathVariable("artistName") String bandName){
 
-        return concertService.getAllConcertsByArtistBandName(bandName);
+
+        return ResponseEntity.ok().body(concertService.getAllConcertsByArtistBandName(bandName));
     }
     @PostMapping("/addconcert/{artistId}/{concerthallId}")
     public ResponseEntity<?> addConcertHallToArtist(@PathVariable("artistId") Long artistId,
