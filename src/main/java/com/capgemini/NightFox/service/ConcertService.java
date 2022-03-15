@@ -53,7 +53,7 @@ public class ConcertService {
             return ResponseEntity.ok().body(concertList);
         }
         throw new NotFoundException(
-                "Artist id: " + bandName + "does not exist.");
+                "Artist name: " + bandName + "does not exist.");
     }
 
     public ResponseEntity<?> addConcertHallToArtist(Long artistId, Long concertHallId){

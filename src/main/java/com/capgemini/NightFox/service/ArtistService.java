@@ -57,7 +57,7 @@ public class ArtistService {
             return ResponseEntity.ok().body(" Artist is successfully added into this category.");
         }
         throw new NotFoundException(
-                "Category name: " + categoryName + "does not exists.");
+                "Category name: " + categoryName + "does not exist.");
     }
 
     public ResponseEntity<?> getArtistById(Long id) {
@@ -66,7 +66,7 @@ public class ArtistService {
            return ResponseEntity.ok().body(possibleArtist.get());
         }
         throw new NotFoundException(
-                "Artist id: " + id + "does not exists.");
+                "Artist id: " + id + "does not exist.");
     }
     public ResponseEntity<?> getArtistByBandName(String bandName) {
         Optional<Artist> possibleArtist = artistRepository.findByBandName(bandName);
@@ -74,7 +74,7 @@ public class ArtistService {
             return ResponseEntity.ok().body(possibleArtist.get());
         }
         throw new NotFoundException(
-                "Artist name: " + bandName + "does not exists.");
+                "Artist name: " + bandName + "does not exist.");
     }
 
     public ResponseEntity<?> updateArtisById(Long id, Artist artist) {
@@ -86,7 +86,7 @@ public class ArtistService {
             return ResponseEntity.ok().body("The artist is successfully updated.");
         }
         throw new NotFoundException(
-                    "Artist id: " + id + "does not exists.");
+                    "Artist id: " + id + "does not exist.");
     }
 
     public ResponseEntity<?> deleteArtistById(Long id){
@@ -96,7 +96,7 @@ public class ArtistService {
             return ResponseEntity.ok().body("The artist is successfully deleted.");
         }
         throw new NotFoundException(
-                "Artist id: " + id + "does not exists.");
+                "Artist id: " + id + "does not exist.");
     }
 
 
