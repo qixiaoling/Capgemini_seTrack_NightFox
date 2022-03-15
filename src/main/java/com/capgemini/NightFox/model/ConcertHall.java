@@ -2,6 +2,7 @@ package com.capgemini.NightFox.model;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,13 +12,13 @@ public class ConcertHall {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
-    @NotBlank
+    @NotBlank(message = "Hall name is mandatory.")
     private String hallName;
-    @NotBlank
+    @NotBlank(message = "street is mandatory.")
     private String street;
-    @NotBlank
+    @NotNull(message = "Number is mandatory.")
     private Integer number;
-    @NotBlank
+    @NotBlank(message = "city is mandatory.")
     private String city;
 
     private String phone;

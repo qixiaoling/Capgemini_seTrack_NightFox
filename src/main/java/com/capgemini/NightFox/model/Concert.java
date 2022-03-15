@@ -1,5 +1,6 @@
 package com.capgemini.NightFox.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
@@ -20,6 +21,7 @@ public class Concert {
     @Column
     private String description;
     @Column
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
     private LocalDate time;
 
     @ManyToOne (fetch = FetchType.EAGER, cascade = CascadeType.ALL)
