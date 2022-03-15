@@ -1,7 +1,10 @@
 package com.capgemini.NightFox.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,18 +14,19 @@ public class ConcertHall {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
-    @NotBlank
+    @NotBlank(message = "Hall name is mandatory.")
     private String hallName;
-    @NotBlank
+    @NotBlank(message = "street is mandatory.")
     private String street;
-    @NotBlank
+    @NotNull(message = "Number is mandatory.")
     private Integer number;
-    @NotBlank
+    @NotBlank(message = "city is mandatory.")
     private String city;
 
     private String phone;
-    private String capacity;
+    private Integer capacity;
     private Boolean openAir;
+    @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "concertHall")
     private List<Concert> concerts = new ArrayList<>();
 
@@ -30,7 +34,7 @@ public class ConcertHall {
     }
 
     public ConcertHall(String hallName, String street, Integer number, String city, String phone,
-                       String capacity, Boolean openAir) {
+                       Integer capacity, Boolean openAir) {
         this.hallName = hallName;
         this.street = street;
         this.number = number;
@@ -88,11 +92,11 @@ public class ConcertHall {
         this.phone = phone;
     }
 
-    public String getCapacity() {
+    public Integer getCapacity() {
         return capacity;
     }
 
-    public void setCapacity(String capacity) {
+    public void setCapacity(Integer capacity) {
         this.capacity = capacity;
     }
 

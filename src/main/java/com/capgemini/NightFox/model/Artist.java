@@ -1,5 +1,7 @@
 package com.capgemini.NightFox.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
@@ -7,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-
+@Table
 public class Artist {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
@@ -16,13 +18,16 @@ public class Artist {
     @Size(min = 3, max = 20)
     private String bandName;
     private String description;
+    @JsonIgnore
+    @OneToMany(mappedBy = "artist")
+    private List<Review> reviews = new ArrayList<>();
 
     @ManyToOne
     private Artist_Category artist_category;
 
     @OneToMany(mappedBy = "artist")
     private List<Artist_Images> artist_imagesList = new ArrayList<>();
-
+    @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "artist")
     private List<Concert> concerts = new ArrayList<>();
 
@@ -81,5 +86,13 @@ public class Artist {
 
     public void setConcerts(List<Concert> concerts) {
         this.concerts = concerts;
+    }
+
+    public List<Review> getReviews() {
+        return reviews;
+    }
+
+    public void setReviews(List<Review> reviews) {
+        this.reviews = reviews;
     }
 }
