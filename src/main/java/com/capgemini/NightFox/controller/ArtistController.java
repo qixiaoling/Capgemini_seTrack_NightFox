@@ -37,17 +37,19 @@ public class ArtistController {
 
     @PostMapping("/add")
     public ResponseEntity<?> addArtist(@Valid @RequestBody Artist artist) {
-
+        artistService.addArtist(artist);
         return ResponseEntity.ok().body("The artis is successfully added.");
     }
     @PutMapping("/update/{artistId}")
     public ResponseEntity<?> updateArtisById (@PathVariable("artistId") Long id,
                                               @Valid @RequestBody Artist artist){
+        artistService.updateArtisById(id, artist);
         return ResponseEntity.ok().body("The artis is successfully updated.");
     }
 
     @DeleteMapping("/delete/{artistId}")
     public ResponseEntity<?> deleteArtistById(@PathVariable("artistId") Long id){
+        artistService.deleteArtistById(id);
         return ResponseEntity.ok().body("The artis is successfully deleted.");
     }
 
