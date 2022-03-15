@@ -30,7 +30,7 @@ public class ReviewController {
 
         return reviewService.getReviewById(id);
     }
-    @GetMapping("/getbyid/{artistId}")
+    @GetMapping("/getbyArtistId/{artistId}")
     public ResponseEntity<?> getReviewsByArtistId(@PathVariable("artistId") Long id){
 
         return reviewService.getReviewsByArtistId(id);

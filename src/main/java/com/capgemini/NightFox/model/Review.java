@@ -2,6 +2,7 @@ package com.capgemini.NightFox.model;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table
@@ -13,7 +14,7 @@ public class Review {
     private String nameReviewer;
     @NotBlank (message =  "please give us  your opinion.")
     private String description;
-    @NotBlank (message =  "please fill in all the field.")
+    @NotNull
     private Boolean like;
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
