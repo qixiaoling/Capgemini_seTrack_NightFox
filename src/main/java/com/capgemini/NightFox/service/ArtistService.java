@@ -83,6 +83,7 @@ public class ArtistService {
             possibleArtist.get().setBandName(artist.getBandName());
             possibleArtist.get().setDescription(artist.getDescription());
             artistRepository.save(possibleArtist.get());
+            return;
         }
         throw new NotFoundException(
                     "Artist id: " + id + "does not exist.");

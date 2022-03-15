@@ -57,6 +57,7 @@ public class ReviewService {
         if(artistDB.isPresent()){
             review.setArtist(artistDB.get());
             reviewRepository.save(review);
+            return;
         }
         throw new NotFoundException(
                 "Artist id: " + artistId + "does not exist.");
@@ -69,6 +70,7 @@ public class ReviewService {
             possibleReview.get().setDescription(review.getDescription());
             possibleReview.get().setLike(review.getLike());
             reviewRepository.save(possibleReview.get());
+            return;
         }
         throw new NotFoundException(
                 "Review id: " + reviewId + "does not exist.");
@@ -78,6 +80,7 @@ public class ReviewService {
         Optional<Review> possibleReview = reviewRepository.findById(reviewId);
         if(possibleReview.isPresent()){
             reviewRepository.deleteById(reviewId);
+            return;
         }
         throw new NotFoundException(
                 "Review id: " + reviewId + "does not exist.");

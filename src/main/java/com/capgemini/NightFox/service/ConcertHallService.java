@@ -56,6 +56,7 @@ public class ConcertHallService {
             possibleConcertHall.get().setCapacity(concertHall.getCapacity());
             possibleConcertHall.get().setOpenAir(concertHall.getOpenAir());
             concertHallRepository.save(possibleConcertHall.get());
+            return;
         }
         throw new NotFoundException(
                 "The concert hall id: "+ id + "does not exist.");
@@ -65,6 +66,7 @@ public class ConcertHallService {
         Optional<ConcertHall> possibleConcertHall = concertHallRepository.findById(id);
         if(possibleConcertHall.isPresent()){
             concertHallRepository.deleteById(id);
+            return;
         }
         throw new NotFoundException(
                 "The concert hall id: " + id + "does not exist.");

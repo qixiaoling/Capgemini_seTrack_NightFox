@@ -72,6 +72,7 @@ public class ConcertService {
         concert_added.setArtist(artist);
         concert_added.setConcertHall(concertHall);
         concertRepository.save(concert_added);
+        return;
 
 
 
@@ -86,6 +87,7 @@ public class ConcertService {
             concert.get().setPrice(dataConcert.getPrice());
             concert.get().setDescription(dataConcert.getDescription());
             concert.get().setTime(dataConcert.getTime());
+            return;
         }
         throw new NotFoundException(
                 "The artist id: " + artistId + "does not exist.");
@@ -118,6 +120,7 @@ public class ConcertService {
                     "The concert does not exist.");
         }
         concertRepository.deleteByArtistAndConcertHall(artist, concertHall);
+        return;
 
 
     }
