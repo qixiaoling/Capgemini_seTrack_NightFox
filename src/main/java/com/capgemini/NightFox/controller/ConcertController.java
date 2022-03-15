@@ -42,19 +42,22 @@ public class ConcertController {
     public ResponseEntity<?> addConcertHallToArtist(@PathVariable("artistId") Long artistId,
                                                     @PathVariable("concerthallId") Long concerthallId) {
 
-        return concertService.addConcertHallToArtist(artistId, concerthallId);
+        concertService.addConcertHallToArtist(artistId, concerthallId);
+        return ResponseEntity.ok("The Concert is added to the artist.");
     }
     @PutMapping("/updateconcertinfo/{artistId}/{concerthallId}")
     public ResponseEntity<?> updateConcertHallById (@PathVariable("artistId") Long artistId,
                                                     @PathVariable("concerthallId") Long concerthallId,
                                                     @Valid @RequestBody Concert concert){
-        return concertService.addConcertDetailedInfo(artistId, concerthallId, concert);
+        concertService.addConcertDetailedInfo(artistId, concerthallId, concert);
+        return ResponseEntity.ok().body("The Concert is successfully updated.");
     }
 
     @DeleteMapping("/delete/{artistId}/{concerthallId}")
     public ResponseEntity<?> deleteConcertHallById(@PathVariable("artistId") Long artistId,
                                                    @PathVariable("concerthallId") Long concerthallId){
-        return concertService.deleteConcertById(artistId, concerthallId);
+        concertService.deleteConcertById(artistId, concerthallId);
+        return ResponseEntity.ok().body("The concert is succssfully deleted.");
     }
 
 
