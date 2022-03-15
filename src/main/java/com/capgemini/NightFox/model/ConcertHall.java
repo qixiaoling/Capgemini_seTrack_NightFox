@@ -21,7 +21,7 @@ public class ConcertHall {
     private String city;
 
     private String phone;
-    private String capacity;
+    private Integer capacity;
     private Boolean openAir;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "concertHall")
     private List<Concert> concerts = new ArrayList<>();
@@ -30,7 +30,7 @@ public class ConcertHall {
     }
 
     public ConcertHall(String hallName, String street, Integer number, String city, String phone,
-                       String capacity, Boolean openAir) {
+                       Integer capacity, Boolean openAir) {
         this.hallName = hallName;
         this.street = street;
         this.number = number;
@@ -88,11 +88,11 @@ public class ConcertHall {
         this.phone = phone;
     }
 
-    public String getCapacity() {
+    public Integer getCapacity() {
         return capacity;
     }
 
-    public void setCapacity(String capacity) {
+    public void setCapacity(Integer capacity) {
         this.capacity = capacity;
     }
 

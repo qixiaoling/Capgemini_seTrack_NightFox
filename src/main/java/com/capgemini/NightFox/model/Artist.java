@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-
+@Table
 public class Artist {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
