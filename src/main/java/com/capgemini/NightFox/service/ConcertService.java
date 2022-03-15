@@ -32,18 +32,18 @@ public class ConcertService {
         this.concertHallRepository = concertHallRepository;
     }
 
-    public ResponseEntity<?> getAllConcerts() {
+    public List<Concert> getAllConcerts() {
         List<Concert> concerts = new ArrayList<>();
         concertRepository.findAll().forEach(concerts::add);
-        return ResponseEntity.ok().body(concerts);
+        return concerts;
     }
 
-    public ResponseEntity<?> getAllConcertsByArtistId(Long id) {
+    public List<Concert>  getAllConcertsByArtistId(Long id) {
         Optional<Artist> possibleArtist = artistRepository.findById(id);
         if (possibleArtist.isPresent()) {
             List<Concert> concertList = new ArrayList<>();
             concertList.addAll(concertRepository.findByArtist(possibleArtist.get()));
-            return ResponseEntity.ok().body(concertList);
+            return concertList;
         }
         throw new NotFoundException(
                 "Artist id: " + id + "does not exist.");

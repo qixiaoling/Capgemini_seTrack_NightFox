@@ -22,33 +22,36 @@ public class ReviewController {
     @GetMapping("/getall")
     public ResponseEntity<?> getAllReviews(){
 
-        return reviewService.getAllReviews();
+        return ResponseEntity.ok().body(reviewService.getAllReviews());
     }
 
     @GetMapping("/getbyid/{id}")
     public ResponseEntity<?> getReviewById(@PathVariable("id") Long id){
 
-        return reviewService.getReviewById(id);
+        return ResponseEntity.ok().body(reviewService.getReviewById(id));
     }
     @GetMapping("/getbyArtistId/{artistId}")
     public ResponseEntity<?> getReviewsByArtistId(@PathVariable("artistId") Long id){
 
-        return reviewService.getReviewsByArtistId(id);
+        return ResponseEntity.ok().body(reviewService.getReviewsByArtistId(id));
     }
     @PostMapping("/add/{artistId}")
     public ResponseEntity<?> addReviewToArtist(@PathVariable("artistId") Long artistId,
                                                @Valid @RequestBody Review review) {
 
-        return reviewService.addReviewToArtist(artistId, review);
+        reviewService.addReviewToArtist(artistId, review);
+        return ResponseEntity.ok().body("The review is successfully added.");
     }
     @PutMapping("/update/{reviewId}")
     public ResponseEntity<?> updateReviewById (@PathVariable("reviewId") Long reviewId,
                                               @Valid @RequestBody Review review){
-        return reviewService.updateReviewById(reviewId, review);
+        reviewService.updateReviewById(reviewId, review);
+        return ResponseEntity.ok().body("The review is successfully updated.");
     }
     @DeleteMapping("/delete/{reviewId}")
     public ResponseEntity<?> deleteReviewById(@PathVariable("reviewId") Long reviewId){
-        return reviewService.deleteReviewById(reviewId);
+        reviewService.deleteReviewById(reviewId);
+        return ResponseEntity.ok().body("The review is successfully deleted.");
     }
 
 

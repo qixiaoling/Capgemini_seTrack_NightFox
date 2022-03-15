@@ -24,13 +24,13 @@ public class ConcertController {
     @GetMapping("/getall")
     public ResponseEntity<?> getAllConcerts(){
 
-        return concertService.getAllConcerts();
+        return ResponseEntity.ok().body(concertService.getAllConcerts());
     }
 
     @GetMapping("/getbyid/{artistId}")
     public ResponseEntity<?> getAllConcertsByArtistId(@PathVariable("artistId") Long id){
 
-        return concertService.getAllConcertsByArtistId(id);
+        return ResponseEntity.ok().body(concertService.getAllConcertsByArtistId(id));
     }
 
     @GetMapping("/getbyname/{artistName}")
@@ -58,7 +58,7 @@ public class ConcertController {
     public ResponseEntity<?> deleteConcertHallById(@PathVariable("artistId") Long artistId,
                                                    @PathVariable("concerthallId") Long concerthallId){
         concertService.deleteConcertById(artistId, concerthallId);
-        return ResponseEntity.ok().body("The concert is succssfully deleted.");
+        return ResponseEntity.ok().body("The concert is successfully deleted.");
     }
 
 

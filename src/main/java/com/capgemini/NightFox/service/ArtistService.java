@@ -33,67 +33,65 @@ public class ArtistService {
 
 
 
-    public ResponseEntity<?> getAllArtist () {
+    public List<Artist> getAllArtist () {
         List<Artist> artistList = new ArrayList<>();
         artistRepository.findAll().forEach(artistList::add);
-        return ResponseEntity.ok().body(artistList);
+        return artistList;
     }
 
-    public ResponseEntity<?> addArtist(Artist artist) {
+    public void addArtist(Artist artist) {
         boolean existsName = artistRepository.existsByBandName(artist.getBandName());
         if(existsName){
             throw new BadRequestException(
                     "Artist name: " + artist.getBandName() + "taken");
         }
         artistRepository.save(artist);
-        return ResponseEntity.ok().body("The artist is added.");
+
     }
 
-    public ResponseEntity<?> addNewArtistToArtist_Category(String categoryName, Artist artist){
-        Optional <Artist_Category> categoryDB = artist_categoryRepository.findByName(categoryName);
-        if(categoryDB.isPresent()){
-            artist.setArtist_category(categoryDB.get());
-            artistRepository.save(artist);
-            return ResponseEntity.ok().body(" Artist is successfully added into this category.");
-        }
-        throw new NotFoundException(
-                "Category name: " + categoryName + "does not exist.");
-    }
+//    public ResponseEntity<?> addNewArtistToArtist_Category(String categoryName, Artist artist){
+//        Optional <Artist_Category> categoryDB = artist_categoryRepository.findByName(categoryName);
+//        if(categoryDB.isPresent()){
+//            artist.setArtist_category(categoryDB.get());
+//            artistRepository.save(artist);
+//            return ResponseEntity.ok().body(" Artist is successfully added into this category.");
+//        }
+//        throw new NotFoundException(
+//                "Category name: " + categoryName + "does not exist.");
+//    }
 
-    public ResponseEntity<?> getArtistById(Long id) {
+    public Artist getArtistById(Long id) {
         Optional<Artist> possibleArtist = artistRepository.findById(id);
         if(possibleArtist.isPresent()){
-           return ResponseEntity.ok().body(possibleArtist.get());
+           return possibleArtist.get();
         }
         throw new NotFoundException(
                 "Artist id: " + id + "does not exist.");
     }
-    public ResponseEntity<?> getArtistByBandName(String bandName) {
+    public Artist getArtistByBandName(String bandName) {
         Optional<Artist> possibleArtist = artistRepository.findByBandName(bandName);
         if(possibleArtist.isPresent()){
-            return ResponseEntity.ok().body(possibleArtist.get());
+            return possibleArtist.get();
         }
         throw new NotFoundException(
                 "Artist name: " + bandName + "does not exist.");
     }
 
-    public ResponseEntity<?> updateArtisById(Long id, Artist artist) {
+    public void updateArtisById(Long id, Artist artist) {
         Optional<Artist> possibleArtist = artistRepository.findById(id);
         if(possibleArtist.isPresent()){
             possibleArtist.get().setBandName(artist.getBandName());
             possibleArtist.get().setDescription(artist.getDescription());
             artistRepository.save(possibleArtist.get());
-            return ResponseEntity.ok().body("The artist is successfully updated.");
         }
         throw new NotFoundException(
                     "Artist id: " + id + "does not exist.");
     }
 
-    public ResponseEntity<?> deleteArtistById(Long id){
+    public void deleteArtistById(Long id){
         Optional<Artist> possibleArtist = artistRepository.findById(id);
         if(possibleArtist.isPresent()){
             artistRepository.deleteById(id);
-            return ResponseEntity.ok().body("The artist is successfully deleted.");
         }
         throw new NotFoundException(
                 "Artist id: " + id + "does not exist.");

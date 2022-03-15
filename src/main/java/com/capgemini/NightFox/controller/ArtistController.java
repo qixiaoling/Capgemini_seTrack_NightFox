@@ -21,34 +21,34 @@ public class ArtistController {
     @GetMapping("/getall")
     public ResponseEntity<?> getAllArtist(){
 
-        return artistService.getAllArtist();
+        return ResponseEntity.ok().body(artistService.getAllArtist());
     }
 
     @GetMapping("/getbyid/{artistId}")
     public ResponseEntity<?> getArtistById(@PathVariable("artistId") Long id){
 
-        return artistService.getArtistById(id);
+        return ResponseEntity.ok().body(artistService.getArtistById(id));
     }
     @GetMapping("/getbyname/{artistName}")
     public ResponseEntity<?> getArtistByBandName(@PathVariable("artistName") String bandName){
 
-        return artistService.getArtistByBandName(bandName);
+        return ResponseEntity.ok().body(artistService.getArtistByBandName(bandName));
     }
 
     @PostMapping("/add")
     public ResponseEntity<?> addArtist(@Valid @RequestBody Artist artist) {
 
-        return artistService.addArtist(artist);
+        return ResponseEntity.ok().body("The artis is successfully added.");
     }
     @PutMapping("/update/{artistId}")
     public ResponseEntity<?> updateArtisById (@PathVariable("artistId") Long id,
                                               @Valid @RequestBody Artist artist){
-        return artistService.updateArtisById(id, artist);
+        return ResponseEntity.ok().body("The artis is successfully updated.");
     }
 
     @DeleteMapping("/delete/{artistId}")
     public ResponseEntity<?> deleteArtistById(@PathVariable("artistId") Long id){
-        return artistService.deleteArtistById(id);
+        return ResponseEntity.ok().body("The artis is successfully deleted.");
     }
 
 
