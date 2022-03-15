@@ -63,6 +63,29 @@ public class ReviewService {
                 "Artist id: " + artistId + "does not exist.");
     }
 
+    public ResponseEntity<?> updateReviewById(Long reviewId, Review review){
+        Optional<Review> possibleReview = reviewRepository.findById(reviewId);
+        if(possibleReview.isPresent()){
+            possibleReview.get().setNameReviewer(review.getNameReviewer());
+            possibleReview.get().setDescription(review.getDescription());
+            possibleReview.get().setLike(review.getLike());
+            reviewRepository.save(possibleReview.get());
+            return ResponseEntity.ok().body("The review is updated.");
+        }
+        throw new NotFoundException(
+                "Review id: " + reviewId + "does not exist.");
+    }
+
+    public ResponseEntity<?> deleteReviewById(Long reviewId){
+        Optional<Review> possibleReview = reviewRepository.findById(reviewId);
+        if(possibleReview.isPresent()){
+            reviewRepository.deleteById(reviewId);
+            return ResponseEntity.ok().body("The review is deleted.");
+        }
+        throw new NotFoundException(
+                "Review id: " + reviewId + "does not exist.");
+    }
+
 
 
 
