@@ -17,6 +17,9 @@ public class Artist {
     private String bandName;
     private String description;
 
+    @OneToMany(mappedBy = "artist")
+    private List<Review> reviews = new ArrayList<>();
+
     @ManyToOne
     private Artist_Category artist_category;
 
@@ -81,5 +84,13 @@ public class Artist {
 
     public void setConcerts(List<Concert> concerts) {
         this.concerts = concerts;
+    }
+
+    public List<Review> getReviews() {
+        return reviews;
+    }
+
+    public void setReviews(List<Review> reviews) {
+        this.reviews = reviews;
     }
 }
