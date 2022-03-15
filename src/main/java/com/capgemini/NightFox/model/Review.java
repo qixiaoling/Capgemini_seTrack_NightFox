@@ -1,5 +1,7 @@
 package com.capgemini.NightFox.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -52,7 +54,7 @@ public class Review {
     public void setLike(Boolean like) {
         this.like = like;
     }
-
+    @JsonBackReference
     public Artist getArtist() {
         return artist;
     }

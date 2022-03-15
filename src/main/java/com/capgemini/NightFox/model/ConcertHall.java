@@ -1,5 +1,7 @@
 package com.capgemini.NightFox.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -24,6 +26,7 @@ public class ConcertHall {
     private String phone;
     private Integer capacity;
     private Boolean openAir;
+    @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "concertHall")
     private List<Concert> concerts = new ArrayList<>();
 
