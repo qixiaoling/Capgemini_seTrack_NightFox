@@ -26,9 +26,9 @@ public class ArtistService {
     private Artist_CategoryRepository artist_categoryRepository;
 
     @Autowired
-    public ArtistService(ArtistRepository artistRepository, Artist_CategoryRepository artist_categoryRepository) {
+    public ArtistService(ArtistRepository artistRepository) {
         this.artistRepository = artistRepository;
-        this.artist_categoryRepository = artist_categoryRepository;
+
     }
 
 
