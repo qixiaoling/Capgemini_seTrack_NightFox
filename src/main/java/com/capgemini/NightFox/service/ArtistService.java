@@ -23,7 +23,7 @@ public class ArtistService {
 
 
     private ArtistRepository artistRepository;
-    private Artist_CategoryRepository artist_categoryRepository;
+
 
     @Autowired
     public ArtistService(ArtistRepository artistRepository) {

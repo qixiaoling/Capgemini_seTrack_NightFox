@@ -1,6 +1,7 @@
 package com.capgemini.NightFox.service;
 
 import com.capgemini.NightFox.Exception.BadRequestException;
+import com.capgemini.NightFox.Exception.NotFoundException;
 import com.capgemini.NightFox.model.Artist;
 import com.capgemini.NightFox.repository.ArtistRepository;
 import org.assertj.core.api.Assertions;
@@ -13,6 +14,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.*;
 import org.mockito.junit.jupiter.MockitoExtension;
+
+import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
@@ -56,7 +59,6 @@ class ArtistServiceTest {
         //then
         verify(artistRepository).save(artist);
 
-
 //        underTest.addArtist(artist);
 
 //        ArgumentCaptor<Artist> artistArgumentCaptor = ArgumentCaptor.forClass(Artist.class);
@@ -64,9 +66,8 @@ class ArtistServiceTest {
 //        Artist capturedArtist = artistArgumentCaptor.getValue();
 //        assertThat(capturedArtist).isEqualTo(artist);
     }
-
     @Test
-    void willThrowWhenArtistBandNameIsTaken() {
+    void addingShouldThrowWhenArtistBandNameIsTaken() {
         //given
         Artist artist = new Artist("Minnie", "Loves pink");
 //        BDDMockito.given(artistRepository.existsByBandName(anyString())).willReturn(true);
@@ -77,6 +78,120 @@ class ArtistServiceTest {
                 .isInstanceOf(BadRequestException.class)
                 .hasMessageContaining("Artist name: " + artist.getBandName() + "taken");
         verify(artistRepository, never()).save(artist);
+    }
+    @Test
+    void gettingShouldReturnArtistIfIdExists(){
+        //given
+        Artist artist = new Artist();
+        artist.setId(1L);
+        artist.setBandName("Micky");
+        artist.setDescription("Wears a tie");
+
+        when(artistRepository.findById(1L)).thenReturn(Optional.of(artist));
+        //when
+        underTest.getArtistById(1L);
+        //then
+        AssertionsForClassTypes.assertThat(underTest.getArtistById(1L)).isEqualTo(artist);
+    }
+
+    @Test
+    void gettingShouldThrowWhenArtistIdDoesNotExist(){
+        //given
+        Long id = 10L;
+        given(artistRepository.existsById(id)).willReturn(false);
+
+        //when
+        //then
+        AssertionsForClassTypes.assertThatThrownBy(()-> underTest.getArtistById(id))
+                .isInstanceOf(NotFoundException.class)
+                .hasMessageContaining("Artist id: " + id + "does not exist.");
+    }
+    @Test
+    void gettingShouldReturnArtistIfBandNameExists(){
+        //given
+        Artist artist = new Artist();
+        artist.setId(1L);
+        artist.setBandName("Micky");
+        artist.setDescription("Wears a tie");
+
+        when(artistRepository.findByBandName("Micky")).thenReturn(Optional.of(artist));
+        //when
+        underTest.getArtistByBandName("Micky");
+
+        //then
+        AssertionsForClassTypes.assertThat(underTest.getArtistByBandName("Micky")).isEqualTo(artist);
+
+    }
+
+    @Test
+    void shouldUpdateIfArtistIdPresent(){
+        //given
+        Artist artistOld = new Artist();
+        artistOld.setId(1L);
+        artistOld.setBandName("Micky");
+        artistOld.setDescription("Wears a tie");
+
+        Artist artistNew = new Artist();
+        artistNew.setBandName("Micky");
+        artistNew.setDescription("Takes off the tie");
+
+        Mockito.when(artistRepository.findById(1L)).thenReturn(Optional.of(artistOld));
+        underTest.updateArtisById(artistOld.getId(), artistNew);
+
+        AssertionsForClassTypes.assertThat(artistOld.getDescription()).isEqualTo("Takes off the tie");
+
+    }
+
+    @Test
+    void updateShouldThrowIfArtistIdNotExists(){
+        //given
+        Long id = 10L;
+        given(artistRepository.existsById(id)).willReturn(false);
+
+        Artist artistNew = new Artist();
+        artistNew.setBandName("Micky");
+        artistNew.setDescription("Takes off the tie");
+        //when
+        //then
+        AssertionsForClassTypes.assertThatThrownBy(()-> underTest.updateArtisById(id, artistNew))
+                .isInstanceOf(NotFoundException.class)
+                .hasMessageContaining("Artist id: " + id + "does not exist.");
+    }
+
+    @Test
+    void shouldDeleteIfArtistIdPresent(){
+//        //given
+//        Long id = 10L;
+////        Artist artistOld = new Artist();
+////        artistOld.setId(5L);
+////        artistOld.setBandName("Micky");
+////        artistOld.setDescription("Wears a tie");
+////
+////        Artist artistNew = new Artist();
+////        artistNew.setId(6L);
+////        artistNew.setBandName("Minnie");
+////        artistNew.setDescription("Brushes her hair");
+//
+//        when(artistRepository.existsById(id)).thenReturn(true);
+//
+//        underTest.deleteArtistById(id);
+//        verify(artistRepository).deleteById(id);
+//
+////        Long id = 10L;
+////        given(artistRepository.existsById(id)).willReturn(true);
+////        underTest.deleteArtistById(id);
+////        verify(artistRepository).deleteById(id);
+        Artist artist = new Artist();
+        artist.setId(1L);
+        artist.setBandName("Micky");
+        artist.setDescription("Wears a tie");
+
+        when(artistRepository.findById(1L)).thenReturn(Optional.of(artist));
+        //when
+        underTest.deleteArtistById(1L);
+        //then
+//        AssertionsForClassTypes.assertThat(underTest.getArtistById(1L)).isEqualTo(artist);
+        verify(artistRepository).deleteById(1L);
 
 
     }
