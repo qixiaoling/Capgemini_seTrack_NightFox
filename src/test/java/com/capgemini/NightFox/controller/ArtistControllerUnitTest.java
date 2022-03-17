@@ -73,11 +73,31 @@ class ArtistControllerUnitTest {
     }
 
     @Test
-    void getArtistByBandName() {
+    void givenArtists_whenGetArtistsByBandName_thenReturnArtist() throws Exception {
+
+        Artist artist = new Artist();
+        artist.setId(1L);
+        artist.setBandName("Micky");
+        artist.setDescription("Wears a tie");
+
+        when(artistService.getArtistByBandName(any())).thenReturn(artist);
+
+        mockMvc.perform(get("/artist/getbyname/{artistName}", "Micky")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
     }
 
     @Test
-    void addArtist() {
+    void addArtist_whenBandNameNotNull_thenReturnOk() throws Exception{
+        Artist artist = new Artist();
+        artist.setId(1L);
+        artist.setBandName("Micky");
+        artist.setDescription("Wears a tie");
+
+        mockMvc.perform(post("artist/add")
+                .contentType(MediaType.APPLICATION_JSON))
+                .content("Micky")
+                .andExpect(status().isOk());
     }
 
     @Test
