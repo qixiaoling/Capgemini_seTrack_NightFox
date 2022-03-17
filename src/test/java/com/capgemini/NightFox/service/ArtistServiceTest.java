@@ -160,39 +160,31 @@ class ArtistServiceTest {
 
     @Test
     void shouldDeleteIfArtistIdPresent(){
-//        //given
-//        Long id = 10L;
-////        Artist artistOld = new Artist();
-////        artistOld.setId(5L);
-////        artistOld.setBandName("Micky");
-////        artistOld.setDescription("Wears a tie");
-////
-////        Artist artistNew = new Artist();
-////        artistNew.setId(6L);
-////        artistNew.setBandName("Minnie");
-////        artistNew.setDescription("Brushes her hair");
-//
-//        when(artistRepository.existsById(id)).thenReturn(true);
-//
-//        underTest.deleteArtistById(id);
-//        verify(artistRepository).deleteById(id);
-//
-////        Long id = 10L;
-////        given(artistRepository.existsById(id)).willReturn(true);
-////        underTest.deleteArtistById(id);
-////        verify(artistRepository).deleteById(id);
+
         Artist artist = new Artist();
         artist.setId(1L);
         artist.setBandName("Micky");
         artist.setDescription("Wears a tie");
 
-        when(artistRepository.findById(1L)).thenReturn(Optional.of(artist));
+        when(artistRepository.existsById(artist.getId())).thenReturn(true);
         //when
-        underTest.deleteArtistById(1L);
+        underTest.deleteArtistById(artist.getId());
         //then
 //        AssertionsForClassTypes.assertThat(underTest.getArtistById(1L)).isEqualTo(artist);
-        verify(artistRepository).deleteById(1L);
+        verify(artistRepository).deleteById(artist.getId());
 
+    }
 
+    @Test
+    void deleteShouldThrowIfIdNotExist(){
+        //given
+        Long id = 10L;
+        given(artistRepository.existsById(id)).willReturn(false);
+
+        //when
+        //then
+        AssertionsForClassTypes.assertThatThrownBy(()-> underTest.deleteArtistById(id))
+                .isInstanceOf(NotFoundException.class)
+                .hasMessageContaining("Artist id: " + id + "does not exist.");
     }
 }
