@@ -2,6 +2,7 @@ package com.capgemini.NightFox.controller;
 
 import com.capgemini.NightFox.model.Artist;
 import com.capgemini.NightFox.service.ArtistService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -23,6 +24,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+
 @WebMvcTest(ArtistController.class)
 class ArtistControllerUnitTest {
 
@@ -30,7 +32,6 @@ class ArtistControllerUnitTest {
     private MockMvc mockMvc;
     @MockBean
     private ArtistService artistService;
-
 
     @BeforeEach
     void setUp() {
@@ -94,9 +95,18 @@ class ArtistControllerUnitTest {
         artist.setBandName("Micky");
         artist.setDescription("Wears a tie");
 
-        mockMvc.perform(post("artist/add")
-                .contentType(MediaType.APPLICATION_JSON))
-                .content("Micky")
+
+//        mockMvc.perform(post("artist/add")
+//                .contentType(MediaType.APPLICATION_JSON))
+//                .content("{\"bandName\":\"Micky\", \"description\": \"Wears a tie\"}")
+//                .andExpect(status().isOk());
+        mockMvc
+                .perform(
+                        post("/artist/add")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content("{\"bandName\":\"Micky\", \"description\": \"Wears a tie\"}")
+
+                )
                 .andExpect(status().isOk());
     }
 
