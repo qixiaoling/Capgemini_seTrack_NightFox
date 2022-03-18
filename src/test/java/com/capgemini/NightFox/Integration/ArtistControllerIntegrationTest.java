@@ -64,7 +64,7 @@ public class ArtistControllerIntegrationTest {
         ResponseEntity<String> response = testRestTemplate.exchange(
                 createURLWithPort("/artist/getall"),
                 HttpMethod.GET, entity, String.class);
-        String expected = "{id:\"1L\", bandName:\"Xiaoling\", description:\"Will be a star\"}";
+        String expected = "[{id:1, bandName:\"Xiaoling\", description:\"will be a star\"}]";
 
         JSONAssert.assertEquals(expected, response.getBody(), false);
 
