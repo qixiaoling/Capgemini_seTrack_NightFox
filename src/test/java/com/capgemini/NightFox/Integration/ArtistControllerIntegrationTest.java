@@ -55,6 +55,7 @@ public class ArtistControllerIntegrationTest {
         artist.setDescription("will be a star");
         artistService.addArtist(artist);
 
+//THIS WORKS, BUT IT IS A SIMPLER VERSION WITHOUT CHECKING THE JSON MESSAGE.
 //        ResponseEntity<String> response =
 //                this.testRestTemplate.getForEntity("http://localhost:" + port + "/artist/getall", String.class);
 //        AssertionsForClassTypes.assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
@@ -67,12 +68,7 @@ public class ArtistControllerIntegrationTest {
         String expected = "[{id:1, bandName:\"Xiaoling\", description:\"will be a star\"}]";
 
         JSONAssert.assertEquals(expected, response.getBody(), false);
-
-//        JSONAssert.assertEquals(expected, response.getBody().get(0), false);
-//        AssertionsForClassTypes.assertThat(response.getBody().get(0)).isEqualTo(artist);
-
-//        Assertions.assertEquals("[{id: 1, bandName: Xiaoling, description: will be a star}]", response.getBody());
-
+        AssertionsForClassTypes.assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
 
     }
     private String createURLWithPort(String url) {
