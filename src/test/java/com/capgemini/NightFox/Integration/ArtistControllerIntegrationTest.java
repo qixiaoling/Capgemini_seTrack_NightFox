@@ -18,6 +18,7 @@ import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.*;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.skyscreamer.jsonassert.JSONAssert;
 
 import java.net.URI;
 import java.util.List;
@@ -37,6 +38,8 @@ public class ArtistControllerIntegrationTest {
     private ArtistService artistService;
     Artist artist;
 
+    HttpHeaders headers = new HttpHeaders();
+
 //    @BeforeEach
 //    void init() {
 //        artist = new Artist();
@@ -52,25 +55,28 @@ public class ArtistControllerIntegrationTest {
         artist.setDescription("will be a star");
         artistService.addArtist(artist);
 
-        ResponseEntity<String> response =
-                this.testRestTemplate.getForEntity("http://localhost:" + port + "/artist/getall", String.class);
-        AssertionsForClassTypes.assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+//        ResponseEntity<String> response =
+//                this.testRestTemplate.getForEntity("http://localhost:" + port + "/artist/getall", String.class);
+//        AssertionsForClassTypes.assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
 
-//        HttpEntity<String> entity = new HttpEntity<String>(null, headers);
-//        ResponseEntity<String> response = testRestTemplate.exchange(
-//                createURLWithPort("/artist/getall"),
-//                HttpMethod.GET, entity, String.class
-//        );
-//
-//       String expected = "{id: 1, bandName: Xiaoling, description: will be a star }";
+
+        HttpEntity<String> entity = new HttpEntity<String>(null, headers);
+        ResponseEntity<String> response = testRestTemplate.exchange(
+                createURLWithPort("/artist/getall"),
+                HttpMethod.GET, entity, String.class);
+        String expected = "{id:\"1L\", bandName:\"Xiaoling\", description:\"Will be a star\"}";
+
+        JSONAssert.assertEquals(expected, response.getBody(), false);
+
 //        JSONAssert.assertEquals(expected, response.getBody().get(0), false);
 //        AssertionsForClassTypes.assertThat(response.getBody().get(0)).isEqualTo(artist);
 
-        Assertions.assertEquals("[{id: 1, bandName: Xiaoling, description: will be a star}]", response.getBody());
+//        Assertions.assertEquals("[{id: 1, bandName: Xiaoling, description: will be a star}]", response.getBody());
 
 
     }
-//    private String createURLWithPort(String url) {
-//        return "http://localhost:" + port + url;
+    private String createURLWithPort(String url) {
+        return "http://localhost:" + port + url;
+    }
 
 }
