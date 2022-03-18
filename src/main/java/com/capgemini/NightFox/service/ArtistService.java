@@ -93,9 +93,11 @@ public class ArtistService {
         Optional<Artist> possibleArtist = artistRepository.findById(id);
         if(possibleArtist.isPresent()){
             artistRepository.deleteById(id);
+        }else{
+            throw new NotFoundException(
+                    "Artist id: " + id + "does not exist.");
         }
-        throw new NotFoundException(
-                "Artist id: " + id + "does not exist.");
+
     }
 
 

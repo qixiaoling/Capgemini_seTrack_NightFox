@@ -7,12 +7,14 @@ import org.assertj.core.api.AssertionsForClassTypes;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
+import org.skyscreamer.jsonassert.JSONAssert;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.ResultMatcher;
 
 import java.util.Arrays;
@@ -40,16 +42,21 @@ class ArtistControllerUnitTest {
     @Test
     void givenArtists_whenGetArtists_thenReturnJsonArray() throws Exception {
         //NO NEED FOR ARRAY HERE?
-//        Artist artist = new Artist("Micky", "From Disney");
-//        List<Artist> artistList = Arrays.asList(artist);
-//        when(artistService.getAllArtist()).thenReturn(artistList);
+        Artist artist = new Artist("Micky", "From Disney");
+        List<Artist> artistList = Arrays.asList(artist);
+        when(artistService.getAllArtist()).thenReturn(artistList);
+        String expected = "[{bandName:\"Micky\", description:\"From Disney\"}]";
 
-
-        mockMvc.perform(get("/artist/getall")
+        MvcResult mvcResult = mockMvc.perform(get("/artist/getall")
                         .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk());
+                .andExpect(status().isOk())
+                .andReturn();
+        String contentAsString = mvcResult.getResponse().getContentAsString();
 //IS THIS A MUST WITHIN CONTROLLER UNIT TEST?
         verify(artistService, times(1)).getAllArtist();
+//        AssertionsForClassTypes.assertThat(contentAsString).isEqualTo(expected);
+        JSONAssert.assertEquals(expected, contentAsString, false);
+
     }
 
     @Test
@@ -63,7 +70,7 @@ class ArtistControllerUnitTest {
 //        when(artistService.getArtistById(anyLong())).thenReturn(artist);
 
         mockMvc.perform(get("/artist/getbyid/{artistId}", 1L)
-                .contentType(MediaType.APPLICATION_JSON))
+                        .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
 
 
@@ -85,7 +92,7 @@ class ArtistControllerUnitTest {
     }
 
     @Test
-    void addArtist_whenBandNameNotNull_thenReturnOk() throws Exception{
+    void addArtist_whenBandNameNotNull_thenReturnOk() throws Exception {
         mockMvc
                 .perform(
                         post("/artist/add")
@@ -97,7 +104,7 @@ class ArtistControllerUnitTest {
     }
 
     @Test
-    void addArtist_WhenBankNameIsNull_thenReturnBadRequest () throws Exception {
+    void addArtist_WhenBankNameIsNull_thenReturnBadRequest() throws Exception {
         mockMvc
                 .perform(
                         post("/artist/add")
@@ -116,15 +123,16 @@ class ArtistControllerUnitTest {
 //        artist.setDescription("Wears a tie");
 
         mockMvc.perform(
-                put("/artist/update/{artistId}", 1L)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"bandName\":\"Micky\", \"description\": \"Take off the tie\"}")
-        )
+                        put("/artist/update/{artistId}", 1L)
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content("{\"bandName\":\"Micky\", \"description\": \"Take off the tie\"}")
+                )
                 .andExpect(status().isOk());
 
         //CANNOT TEST ARTIST DESCRIPTION?
 //        AssertionsForClassTypes.assertThat(artist.getDescription()).isEqualTo("Take off the tie");
     }
+
     @Test
     void updateArtistFail_whenArtistIsNotGiven() throws Exception {
 
