@@ -23,12 +23,12 @@ public class ArtistService {
 
 
     private ArtistRepository artistRepository;
-    private Artist_CategoryRepository artist_categoryRepository;
+
 
     @Autowired
-    public ArtistService(ArtistRepository artistRepository, Artist_CategoryRepository artist_categoryRepository) {
+    public ArtistService(ArtistRepository artistRepository) {
         this.artistRepository = artistRepository;
-        this.artist_categoryRepository = artist_categoryRepository;
+
     }
 
 
@@ -93,9 +93,11 @@ public class ArtistService {
         Optional<Artist> possibleArtist = artistRepository.findById(id);
         if(possibleArtist.isPresent()){
             artistRepository.deleteById(id);
+        }else{
+            throw new NotFoundException(
+                    "Artist id: " + id + "does not exist.");
         }
-        throw new NotFoundException(
-                "Artist id: " + id + "does not exist.");
+
     }
 
 
