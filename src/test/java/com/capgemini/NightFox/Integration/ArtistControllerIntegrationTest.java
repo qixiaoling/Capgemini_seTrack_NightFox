@@ -43,6 +43,7 @@ public class ArtistControllerIntegrationTest {
     @Autowired
     private ArtistService artistService;
     Artist artist;
+    Artist artistUpdate;
 
 
     HttpHeaders headers = new HttpHeaders();
@@ -83,6 +84,39 @@ public class ArtistControllerIntegrationTest {
     }
 
     @Test
+    public void testGetArtistById() throws Exception {
+        artist = new Artist();
+        artist.setId(1L);
+        artist.setBandName("Xiaoling");
+        artist.setDescription("will be a star");
+        artistService.addArtist(artist);
+
+        HttpEntity<String> entity = new HttpEntity<>(null, headers);
+        ResponseEntity<String> response = testRestTemplate.exchange(
+                createURLWithPort("/artist/getbyid/1"),
+                HttpMethod.GET,entity, String.class);
+        String expected = "{id:1, bandName:\"Xiaoling\", description:\"will be a star\"}";
+        JSONAssert.assertEquals(expected, response.getBody(), false);
+        AssertionsForClassTypes.assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+    }
+
+    @Test
+    public void testGetArtistByBandName() throws Exception {
+        artist = new Artist();
+        artist.setId(1L);
+        artist.setBandName("Xiaoling");
+        artist.setDescription("will be a star");
+        artistService.addArtist(artist);
+
+        HttpEntity<String> entity = new HttpEntity<>(null, headers);
+        ResponseEntity<String> response = testRestTemplate.exchange(
+                createURLWithPort("/artist/getbyname/Xiaoling"),
+                HttpMethod.GET,entity, String.class);
+        String expected = "{id:1, bandName:\"Xiaoling\", description:\"will be a star\"}";
+        JSONAssert.assertEquals(expected, response.getBody(), false);
+        AssertionsForClassTypes.assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+    }
+    @Test
     public void testPostOneArtist() throws Exception {
         artist = new Artist();
         artist.setBandName("Xiaoling");
@@ -99,18 +133,45 @@ public class ArtistControllerIntegrationTest {
         //THIS DID NOT WORK. CANNOT OPEN H2 DATABASE ON PORT 8080.
 //        verify(artistRepository, times(1)).save(artist);
 
-
-
-
-
-
-
-
-
-
-
-
-
     }
+
+    @Test
+    public void testUpdateArtistById() throws Exception {
+        artist = new Artist();
+        artist.setId(1L);
+        artist.setBandName("Xiaoling");
+        artist.setDescription("will be a star");
+        artistService.addArtist(artist);
+
+        artistUpdate = new Artist();
+        artistUpdate.setBandName("Xiaoling");
+        artistUpdate.setDescription("will be a star soon");
+
+
+        HttpEntity<Artist> entity = new HttpEntity<>(artistUpdate, headers);
+        ResponseEntity<String> response = testRestTemplate.exchange(
+                createURLWithPort("/artist/update/1"),
+                HttpMethod.PUT, entity, String.class);
+        String expected = "The artis is successfully updated.";
+        AssertionsForClassTypes.assertThat(expected).isEqualTo(response.getBody());
+        AssertionsForClassTypes.assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+    }
+    @Test
+    public void testDeleteArtistById() throws Exception {
+        artist = new Artist();
+        artist.setId(1L);
+        artist.setBandName("Xiaoling");
+        artist.setDescription("Will be a star");
+        artistService.addArtist(artist);
+
+        HttpEntity<String> entity = new HttpEntity<>(null, headers);
+        ResponseEntity<String> response = testRestTemplate.exchange(
+                createURLWithPort("/artist/delete/1"),
+                HttpMethod.DELETE, entity, String.class);
+        String expected = "The artis is successfully deleted.";
+        AssertionsForClassTypes.assertThat(expected).isEqualTo(response.getBody());
+        AssertionsForClassTypes.assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+    }
+
 
 }
