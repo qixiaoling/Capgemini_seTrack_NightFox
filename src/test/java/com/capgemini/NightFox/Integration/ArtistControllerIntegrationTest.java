@@ -12,6 +12,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.runner.RunWith;
 import org.skyscreamer.jsonassert.JSONAssert;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.client.WebClientRestTemplateAutoConfiguration;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
@@ -20,8 +21,13 @@ import org.springframework.http.*;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.skyscreamer.jsonassert.JSONAssert;
 
+import javax.persistence.GeneratedValue;
 import java.net.URI;
 import java.util.List;
+import java.util.Optional;
+
+import static net.bytebuddy.matcher.ElementMatchers.is;
+import static org.mockito.Mockito.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = NightFoxApplication.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -37,6 +43,7 @@ public class ArtistControllerIntegrationTest {
     @Autowired
     private ArtistService artistService;
     Artist artist;
+
 
     HttpHeaders headers = new HttpHeaders();
 
@@ -73,6 +80,37 @@ public class ArtistControllerIntegrationTest {
     }
     private String createURLWithPort(String url) {
         return "http://localhost:" + port + url;
+    }
+
+    @Test
+    public void testPostOneArtist() throws Exception {
+        artist = new Artist();
+        artist.setBandName("Xiaoling");
+        artist.setDescription("will be a star");
+
+
+        HttpEntity<Artist> entity = new HttpEntity<>(artist, headers);
+        ResponseEntity<String> response = testRestTemplate.exchange(
+                createURLWithPort("/artist/add"),
+                HttpMethod.POST, entity, String.class);
+        String expected = "The artis is successfully added.";
+        AssertionsForClassTypes.assertThat(expected).isEqualTo(response.getBody());
+        AssertionsForClassTypes.assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+        //THIS DID NOT WORK. CANNOT OPEN H2 DATABASE ON PORT 8080.
+//        verify(artistRepository, times(1)).save(artist);
+
+
+
+
+
+
+
+
+
+
+
+
+
     }
 
 }
