@@ -10,7 +10,11 @@ import org.assertj.core.api.AssertionsForClassTypes;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.List;
 import java.util.Optional;
@@ -20,12 +24,15 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-
+@ExtendWith(MockitoExtension.class)
 class ConcertServiceTest {
-
-    private ConcertRepository concertRepository = Mockito.mock(ConcertRepository.class);
-    private ConcertHallRepository concertHallRepository = Mockito.mock(ConcertHallRepository.class);
-    private ArtistRepository artistRepository = Mockito.mock(ArtistRepository.class);
+    @Mock
+    private ConcertRepository concertRepository;
+    @Mock
+    private ConcertHallRepository concertHallRepository;
+    @Mock
+    private ArtistRepository artistRepository;
+    @InjectMocks
     private ConcertService underTest;
     private Concert concert1;
     private Concert concert2;
@@ -37,24 +44,6 @@ class ConcertServiceTest {
 
     @BeforeEach
     void init() {
-
-
-
-
-    }
-
-    @AfterEach
-    void tearDown() {
-    }
-
-    @Test
-    void getAllConcerts() {
-        underTest.getAllConcerts();
-        verify(concertRepository).findAll();
-    }
-
-    @Test
-    void gettingShouldReturnConcertIfIdExists() {
         underTest = new ConcertService(artistRepository, concertRepository, concertHallRepository);
 
         artist = new Artist();
@@ -93,15 +82,36 @@ class ConcertServiceTest {
 
 
 
+    }
+
+    @AfterEach
+    void tearDown() {
+    }
+
+    @Test
+    void getAllConcerts() {
+        underTest.getAllConcerts();
+        verify(concertRepository).findAll();
+    }
+
+    @Test
+    void gettingShouldReturnConcertIfIdExists() {
+
+
+
+
 //        when(artistRepository.findById(1L)).thenReturn(Optional.of(artist));
 //        when(concertHallRepository.findById(2L)).thenReturn(Optional.of(concertHall1));
 //        when(concertHallRepository.findById(3L)).thenReturn(Optional.of(concertHall2));
-        when(concertRepository.findByArtistAndConcertHall(artist, concertHall1)).thenReturn(Optional.of(concert1));
-        when(concertRepository.findByArtistAndConcertHall(artist, concertHall2)).thenReturn(Optional.of(concert2));
+//        when(concertRepository.findByArtistAndConcertHall(artist, concertHall1)).thenReturn(Optional.of(concert1));
+//        when(concertRepository.findByArtistAndConcertHall(artist, concertHall2)).thenReturn(Optional.of(concert2));
+        when(artistRepository.findById(1L)).thenReturn(Optional.of(artist));
+       when(concertRepository.findByArtistAndConcertHall(artist, concertHall1)).thenReturn(Optional.of(concert1));
+       when(concertRepository.findByArtistAndConcertHall(artist, concertHall2)).thenReturn(Optional.of(concert2));
 
-
-        List<Concert> concertList = underTest.getAllConcertsByArtistId(artist.getId());
+        List<Concert> concertList = underTest.getAllConcertsByArtistId(1L);
         AssertionsForClassTypes.assertThat(concertList.size()).isEqualTo(2);
+
 
     }
 
