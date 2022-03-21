@@ -42,7 +42,10 @@ public class ConcertService {
         Optional<Artist> possibleArtist = artistRepository.findById(id);
         if (possibleArtist.isPresent()) {
             List<Concert> concertList = new ArrayList<>();
-            concertList.addAll(concertRepository.findByArtist(possibleArtist.get()));
+            List<Concert> generatedList = concertRepository.findByArtist(possibleArtist.get());
+            for(Concert c : generatedList){
+                concertList.add(c);
+            }
             return concertList;
         }
         throw new NotFoundException(
@@ -87,9 +90,11 @@ public class ConcertService {
             concert.get().setDescription(dataConcert.getDescription());
             concert.get().setTime(dataConcert.getTime());
             return;
+        }else{
+            throw new NotFoundException(
+                    "The concert does not exist.");
+
         }
-        throw new NotFoundException(
-                "The artist id: " + artistId + "does not exist.");
 
     }
 
