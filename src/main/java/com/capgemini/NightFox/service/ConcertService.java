@@ -67,13 +67,12 @@ public class ConcertService {
         Optional<Concert> concert = concertRepository.findByArtistAndConcertHall(artist, concertHall);
         if (concert.isPresent()) {
             throw new BadRequestException("This concert hall is already added to the artist.");
+        }else{
+            Concert concert_added = new Concert(artist, concertHall);
+            concert_added.setArtist(artist);
+            concert_added.setConcertHall(concertHall);
+            concertRepository.save(concert_added);
         }
-        Concert concert_added = new Concert(artist, concertHall);
-        concert_added.setArtist(artist);
-        concert_added.setConcertHall(concertHall);
-        concertRepository.save(concert_added);
-        return;
-
 
 
     }
