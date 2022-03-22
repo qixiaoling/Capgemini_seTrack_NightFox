@@ -1,4 +1,4 @@
-package com.capgemini.NightFox.controller;
+package com.capgemini.NightFox.Integration;
 
 import com.capgemini.NightFox.NightFoxApplication;
 import com.capgemini.NightFox.model.Artist;

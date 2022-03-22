@@ -129,7 +129,7 @@ class ConcertControllerTest {
                 .perform(
                         put("/concert/updateconcertinfo/{artistId}/{concerthallId}", 1L, 2L)
                                 .contentType(MediaType.APPLICATION_JSON)
-                                .content("{\"price\":\"1000\", \"description\": \"2022\", \"time\": \"01/01/2022\"}")
+                                .content("{\"price\":1000.00, \"description\": \"2022\", \"time\": \"01/01/2022\"}")
                 )
                 .andExpect(status().isOk());
     }
