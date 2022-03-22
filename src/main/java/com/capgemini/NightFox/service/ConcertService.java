@@ -47,9 +47,11 @@ public class ConcertService {
                 concertList.add(c);
             }
             return concertList;
+        }else{
+            throw new NotFoundException(
+                    "Artist id: " + id + "does not exist.");
         }
-        throw new NotFoundException(
-                "Artist id: " + id + "does not exist.");
+
     }
 
     public List<Concert> getAllConcertsByArtistBandName(String bandName) {
