@@ -1,6 +1,5 @@
 package com.capgemini.NightFox.controller;
 
-import ch.qos.logback.core.encoder.EchoEncoder;
 import com.capgemini.NightFox.model.Artist;
 import com.capgemini.NightFox.model.Concert;
 import com.capgemini.NightFox.model.ConcertHall;
@@ -16,22 +15,18 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
-import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.*;
-import static org.springframework.test.web.client.match.MockRestRequestMatchers.content;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(ConcertController.class)
-class ConcertControllerTest {
+class ConcertControllerUnitTest {
 
     @Autowired
     private MockMvc mockMvc;

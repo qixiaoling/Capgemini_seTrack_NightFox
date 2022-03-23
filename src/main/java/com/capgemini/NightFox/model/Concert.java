@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,11 +19,14 @@ public class Concert {
     @Column(name = "individual_concert_id")
     private Long id;
     @Column
+    @NotNull
     private Double price;
     @Column
+    @NotBlank  (message = "Description is mandatory.")
     private String description;
     @Column
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
+    @NotNull
     private LocalDate time;
 
     @ManyToOne (fetch = FetchType.EAGER, cascade = CascadeType.ALL)
