@@ -104,7 +104,7 @@ class ArtistControllerUnitTest {
     }
 
     @Test
-    void addArtist_WhenBankNameIsNull_thenReturnBadRequest() throws Exception {
+    void addArtist_WhenBandNameIsNull_thenReturnBadRequest() throws Exception {
         mockMvc
                 .perform(
                         post("/artist/add")

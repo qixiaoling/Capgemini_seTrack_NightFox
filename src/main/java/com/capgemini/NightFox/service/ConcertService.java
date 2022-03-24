@@ -42,11 +42,16 @@ public class ConcertService {
         Optional<Artist> possibleArtist = artistRepository.findById(id);
         if (possibleArtist.isPresent()) {
             List<Concert> concertList = new ArrayList<>();
-            concertList.addAll(concertRepository.findByArtist(possibleArtist.get()));
+            List<Concert> generatedList = concertRepository.findByArtist(possibleArtist.get());
+            for(Concert c : generatedList){
+                concertList.add(c);
+            }
             return concertList;
+        }else{
+            throw new NotFoundException(
+                    "Artist id: " + id + "does not exist.");
         }
-        throw new NotFoundException(
-                "Artist id: " + id + "does not exist.");
+
     }
 
     public List<Concert> getAllConcertsByArtistBandName(String bandName) {
@@ -67,13 +72,12 @@ public class ConcertService {
         Optional<Concert> concert = concertRepository.findByArtistAndConcertHall(artist, concertHall);
         if (concert.isPresent()) {
             throw new BadRequestException("This concert hall is already added to the artist.");
+        }else{
+            Concert concert_added = new Concert(artist, concertHall);
+            concert_added.setArtist(artist);
+            concert_added.setConcertHall(concertHall);
+            concertRepository.save(concert_added);
         }
-        Concert concert_added = new Concert(artist, concertHall);
-        concert_added.setArtist(artist);
-        concert_added.setConcertHall(concertHall);
-        concertRepository.save(concert_added);
-        return;
-
 
 
     }
@@ -88,9 +92,11 @@ public class ConcertService {
             concert.get().setDescription(dataConcert.getDescription());
             concert.get().setTime(dataConcert.getTime());
             return;
+        }else{
+            throw new NotFoundException(
+                    "The concert does not exist.");
+
         }
-        throw new NotFoundException(
-                "The artist id: " + artistId + "does not exist.");
 
     }
 
