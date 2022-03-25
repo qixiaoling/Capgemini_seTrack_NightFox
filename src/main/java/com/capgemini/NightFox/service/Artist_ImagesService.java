@@ -4,6 +4,7 @@ import com.capgemini.NightFox.Exception.NotFoundException;
 import com.capgemini.NightFox.model.Artist;
 import com.capgemini.NightFox.model.Artist_Images;
 import com.capgemini.NightFox.repository.ArtistRepository;
+import com.capgemini.NightFox.repository.Artist_ImageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;

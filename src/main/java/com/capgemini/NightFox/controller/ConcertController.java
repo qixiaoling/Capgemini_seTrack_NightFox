@@ -41,18 +41,13 @@ public class ConcertController {
     }
     @PostMapping("/addconcert/{artistId}/{concerthallId}")
     public ResponseEntity<?> addConcertHallToArtist(@PathVariable("artistId") Long artistId,
-                                                    @PathVariable("concerthallId") Long concerthallId) {
+                                                    @PathVariable("concerthallId") Long concerthallId,
+                                                    @RequestBody Concert concert) {
 
-        concertService.addConcertHallToArtist(artistId, concerthallId);
+        concertService.addConcertHallToArtist(artistId, concerthallId, concert);
         return ResponseEntity.ok("The Concert is added to the artist.");
     }
-    @PutMapping("/updateconcertinfo/{artistId}/{concerthallId}")
-    public ResponseEntity<?> updateConcertById (@PathVariable("artistId") Long artistId,
-                                                    @PathVariable("concerthallId") Long concerthallId,
-                                                    @Valid @RequestBody Concert concert){
-        concertService.addConcertDetailedInfo(artistId, concerthallId, concert);
-        return ResponseEntity.ok().body("The Concert is successfully updated.");
-    }
+
 
     @DeleteMapping("/delete/{artistId}/{concerthallId}")
     public ResponseEntity<?> deleteConcertById(@PathVariable("artistId") Long artistId,

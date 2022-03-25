@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-public interface Artist_ImagesRepository extends JpaRepository<Artist_Images, Long> {
+public interface Artist_ImageRepository extends JpaRepository<Artist_Images, Long> {
     Optional<Artist_Images> findById(Long id);
 
 }

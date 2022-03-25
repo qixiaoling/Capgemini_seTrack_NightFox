@@ -44,6 +44,12 @@ public class Concert {
         this.concertHall = concertHall;
     }
 
+    public Concert(Double price, String description, LocalDate time) {
+        this.price = price;
+        this.description = description;
+        this.time = time;
+    }
+
     public Long getId() {
         return id;
     }

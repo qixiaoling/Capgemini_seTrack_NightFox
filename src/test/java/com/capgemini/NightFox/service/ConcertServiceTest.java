@@ -128,26 +128,10 @@ class ConcertServiceTest {
     void addConcertHallToArtist() {
         Mockito.when(artistRepository.findById(1L)).thenReturn(Optional.of(artist));
         Mockito.when(concertHallRepository.findById(2L)).thenReturn(Optional.of(concertHall1));
-        underTest.addConcertHallToArtist(1L, 2L);
+        underTest.addConcertHallToArtist(1L, 2L, concert);
         verify(concertRepository).save(concert1);
     }
 
-    @Test
-    void addConcertDetailedInfo() {
-        Concert dataConcert = new Concert();
-        dataConcert.setPrice(200.00);
-        dataConcert.setDescription("2022");
-        dataConcert.setTime(LocalDate.now());
-
-        Mockito.when(artistRepository.findById(1L)).thenReturn(Optional.of(artist));
-        Mockito.when(concertHallRepository.findById(2L)).thenReturn(Optional.of(concertHall1));
-        Mockito.when(concertRepository.findByArtistAndConcertHall(artist, concertHall1)).thenReturn(Optional.of(concert1));
-
-        underTest.addConcertDetailedInfo(1L, 2L, dataConcert);
-        Optional <Concert> possibleConcert = concertRepository.findByArtistAndConcertHall(artist, concertHall1);
-        AssertionsForClassTypes.assertThat(possibleConcert.get().getDescription()).isEqualTo("2022");
-
-    }
 
     @Test
     void deleteConcertById() {
