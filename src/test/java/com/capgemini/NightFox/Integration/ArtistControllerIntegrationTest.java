@@ -83,6 +83,7 @@ public class ArtistControllerIntegrationTest {
         return "http://localhost:" + port + url;
     }
 
+
     @Test
     public void testGetArtistById() throws Exception {
         artist = new Artist();
@@ -169,6 +170,23 @@ public class ArtistControllerIntegrationTest {
                 createURLWithPort("/artist/delete/1"),
                 HttpMethod.DELETE, entity, String.class);
         String expected = "The artis is successfully deleted.";
+        AssertionsForClassTypes.assertThat(expected).isEqualTo(response.getBody());
+        AssertionsForClassTypes.assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+    }
+    @Test
+    public void testCheckIfArtistExistById() throws Exception {
+        artist = new Artist();
+        artist.setId(1L);
+        artist.setBandName("Xiaoling");
+        artist.setDescription("will be a star");
+        artistService.addArtist(artist);
+        HttpEntity<String> entity = new HttpEntity<>(null, headers);
+        ResponseEntity<String> response = testRestTemplate.exchange(
+                createURLWithPort("/artist/checkExists/1"),
+                HttpMethod.GET,entity, String.class);
+
+        String expected = "The artist id does exist.";
+
         AssertionsForClassTypes.assertThat(expected).isEqualTo(response.getBody());
         AssertionsForClassTypes.assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
     }

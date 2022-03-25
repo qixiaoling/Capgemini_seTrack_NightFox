@@ -43,6 +43,18 @@ class ArtistServiceUnitTest {
     }
 
     @Test
+    void checkArtistIsExistsByArtistId() {
+        Long id = 10L;
+        given(artistRepository.existsById(id)).willReturn(false);
+
+        //when
+        //then
+        AssertionsForClassTypes.assertThatThrownBy(()-> underTest.checkArtistIsExistsByArtistId(id))
+                .isInstanceOf(NotFoundException.class)
+                .hasMessageContaining("Artist id: " + id + "does not exist.");
+    }
+
+    @Test
     void canAddArtist() {
         //given
         Artist artist = new Artist("Micky", "Comes from Disney");

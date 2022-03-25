@@ -74,10 +74,16 @@ class ConcertServiceTest {
 
         concert1 = new Concert();
         concert1.setId(4L);
+        concert1.setTime(LocalDate.of(2022, 01, 01));
+        concert1.setDescription("2022");
+        concert1.setPrice(200.00);
         concert1.setArtist(artist);
         concert1.setConcertHall(concertHall1);
         concert2 = new Concert();
         concert2.setId(5L);
+        concert1.setTime(LocalDate.of(2023, 01, 01));
+        concert1.setDescription("2023");
+        concert1.setPrice(300.00);
         concert2.setArtist(artist);
         concert2.setConcertHall(concertHall2);
 
@@ -102,14 +108,6 @@ class ConcertServiceTest {
     void ShouldReturnConcertListIfArtistBandNameExists() {
 
         when(artistRepository.findByBandName("Xiaoling")).thenReturn(Optional.of(artist));
-//        when(concertHallRepository.existsById(2L)).thenReturn(true);
-//        when(concertHallRepository.existsById(3L)).thenReturn(true);
-
-//       when(concertRepository.findByArtistAndConcertHall(artist, concertHall1)).thenReturn(Optional.of(concert1));
-//       when(concertRepository.findByArtistAndConcertHall(artist, concertHall2)).thenReturn(Optional.of(concert2));
-
-//        List<Concert> concertList = underTest.getAllConcertsByArtistBandName("Xiaoling");
-//        AssertionsForClassTypes.assertThat(concertList.size()).isEqualTo(2);
 
         underTest.getAllConcertsByArtistBandName("Xiaoling");
         verify(concertRepository).findByArtist(artist);
@@ -128,27 +126,22 @@ class ConcertServiceTest {
     void addConcertHallToArtist() {
         Mockito.when(artistRepository.findById(1L)).thenReturn(Optional.of(artist));
         Mockito.when(concertHallRepository.findById(2L)).thenReturn(Optional.of(concertHall1));
-        underTest.addConcertHallToArtist(1L, 2L);
+        underTest.addConcertHallToArtist(1L, 2L, concert1);
         verify(concertRepository).save(concert1);
     }
 
+
     @Test
-    void addConcertDetailedInfo() {
-        Concert dataConcert = new Concert();
-        dataConcert.setPrice(200.00);
-        dataConcert.setDescription("2022");
-        dataConcert.setTime(LocalDate.now());
+    void updateConcert() {
+        Concert concertWithNewData = new Concert(2000.00, "Xiang Shang Kan", LocalDate.of(2022, 01, 01));
 
-        Mockito.when(artistRepository.findById(1L)).thenReturn(Optional.of(artist));
-        Mockito.when(concertHallRepository.findById(2L)).thenReturn(Optional.of(concertHall1));
-        Mockito.when(concertRepository.findByArtistAndConcertHall(artist, concertHall1)).thenReturn(Optional.of(concert1));
+        Mockito.when(concertRepository.findById(4L)).thenReturn(Optional.of(concert1));
 
-        underTest.addConcertDetailedInfo(1L, 2L, dataConcert);
-        Optional <Concert> possibleConcert = concertRepository.findByArtistAndConcertHall(artist, concertHall1);
-        AssertionsForClassTypes.assertThat(possibleConcert.get().getDescription()).isEqualTo("2022");
+        underTest.updateConcertById(4L, concertWithNewData);
+        Optional <Concert> possibleConcert = concertRepository.findById(4L);
+        AssertionsForClassTypes.assertThat(possibleConcert.get().getDescription()).isEqualTo("Xiang Shang Kan");
 
     }
-
     @Test
     void deleteConcertById() {
 

@@ -3,17 +3,10 @@ package com.capgemini.NightFox.service;
 import com.capgemini.NightFox.Exception.BadRequestException;
 import com.capgemini.NightFox.Exception.NotFoundException;
 import com.capgemini.NightFox.model.Artist;
-import com.capgemini.NightFox.model.Artist_Category;
 import com.capgemini.NightFox.repository.ArtistRepository;
-import com.capgemini.NightFox.repository.Artist_CategoryRepository;
-import org.apache.coyote.Response;
-import org.hibernate.hql.internal.ast.tree.ResolvableNode;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.awt.geom.AffineTransform;
-import java.awt.geom.RectangularShape;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -37,6 +30,16 @@ public class ArtistService {
         List<Artist> artistList = new ArrayList<>();
         artistRepository.findAll().forEach(artistList::add);
         return artistList;
+    }
+
+    public void checkArtistIsExistsByArtistId(Long id) {
+
+        if(artistRepository.existsById(id)){
+            return;
+        }else{
+           throw new NotFoundException(
+                   "Artist id: " + id + "does not exist.");
+        }
     }
 
     public void addArtist(Artist artist) {
@@ -99,7 +102,6 @@ public class ArtistService {
         }
 
     }
-
 
 
 

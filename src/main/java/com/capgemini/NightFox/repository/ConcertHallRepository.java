@@ -9,7 +9,7 @@ import java.util.Optional;
 @Repository
 public interface ConcertHallRepository extends JpaRepository <ConcertHall, Long> {
 
-//    Optional<ConcertHall> findById(Long id);
+    //    Optional<ConcertHall> findById(Long id);
 //    Optional<ConcertHall> findConcertHallById(Long id);
     boolean existsByHallName(String hallName);
 }

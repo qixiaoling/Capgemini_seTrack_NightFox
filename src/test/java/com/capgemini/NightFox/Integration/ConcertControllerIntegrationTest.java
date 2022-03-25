@@ -84,6 +84,8 @@ class ConcertControllerIntegrationTest {
         concertHall2.setPhone("020-12345");
         concertHall2.setCapacity(60000);
         concertHall2.setOpenAir(false);
+        
+        concert1 = new Concert(200.00, "Xiang shang kan", LocalDate.of(2022, 01, 01) );
 
 
     }
@@ -97,15 +99,14 @@ class ConcertControllerIntegrationTest {
 
         artistService.addArtist(artist);
         concertHallService.addConcertHall(concertHall1);
-        concertService.addConcertHallToArtist(artist.getId(), concertHall1.getId());
+        concertService.addConcertHallToArtist(artist.getId(), concertHall1.getId(), concert1);
 
         HttpEntity<String> entity = new HttpEntity<String>(null, headers);
         ResponseEntity<String> response = testRestTemplate.exchange(
                 createURLWithPort("/concert/getall"),
                 HttpMethod.GET, entity, String.class);
-        String expected =  "[{id: 3, price: null, description: null, time: null, artist: {id:1,bandName:\"Xiaoling\", description: \"Coming from China\"," +
-                "artist_category:null}, concertHall: {hallName: \"Johan Cruijff ArenA\", street: \"AmersterdamStreet\", number: 1,city: \"Amsterdam\", phone: \"030-12345\"," +
-                "capacity: 500000, openAir: true}, concert_ticketList:[]}]";
+        String expected =  "[{id: 3, price: 200.00, description: \"Xiang shang kan\", time: \"01/01/2022\", artist: {id:1,bandName:\"Xiaoling\", description: \"Coming from China\"}, concertHall: {hallName: \"Johan Cruijff ArenA\", street: \"AmersterdamStreet\", number: 1,city: \"Amsterdam\", phone: \"030-12345\"," +
+                "capacity: 500000, openAir: true}}]";
 
         JSONAssert.assertEquals(expected, response.getBody(), false);
         AssertionsForClassTypes.assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
@@ -119,15 +120,14 @@ class ConcertControllerIntegrationTest {
     void testGetAllConcertsByArtistId() throws Exception {
         artistService.addArtist(artist);
         concertHallService.addConcertHall(concertHall1);
-        concertService.addConcertHallToArtist(artist.getId(), concertHall1.getId());
+        concertService.addConcertHallToArtist(artist.getId(), concertHall1.getId(), concert1);
 
         HttpEntity<String> entity = new HttpEntity<>(null, headers);
         ResponseEntity<String> response = testRestTemplate.exchange(
                 createURLWithPort("/concert/getbyid/1"),
                 HttpMethod.GET,entity, String.class);
-        String expected =  "[{id: 3, price: null, description: null, time: null, artist: {id:1,bandName:\"Xiaoling\", description: \"Coming from China\"," +
-                "artist_category:null}, concertHall: {hallName: \"Johan Cruijff ArenA\", street: \"AmersterdamStreet\", number: 1,city: \"Amsterdam\", phone: \"030-12345\"," +
-                "capacity: 500000, openAir: true}, concert_ticketList:[]}]";
+        String expected =  "[{id: 3, price: 200.00, description: \"Xiang shang kan\", time: \"01/01/2022\", artist: {id:1,bandName:\"Xiaoling\", description: \"Coming from China\"}, concertHall: {hallName: \"Johan Cruijff ArenA\", street: \"AmersterdamStreet\", number: 1,city: \"Amsterdam\", phone: \"030-12345\"," +
+                "capacity: 500000, openAir: true}}]";
         JSONAssert.assertEquals(expected, response.getBody(), false);
         AssertionsForClassTypes.assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
     }
@@ -136,15 +136,14 @@ class ConcertControllerIntegrationTest {
     void testGetAllConcertsByArtistBandName() throws Exception{
         artistService.addArtist(artist);
         concertHallService.addConcertHall(concertHall1);
-        concertService.addConcertHallToArtist(artist.getId(), concertHall1.getId());
+        concertService.addConcertHallToArtist(artist.getId(), concertHall1.getId(), concert1);
 
         HttpEntity<String> entity = new HttpEntity<>(null, headers);
         ResponseEntity<String> response = testRestTemplate.exchange(
                 createURLWithPort("/concert/getbyname/Xiaoling"),
                 HttpMethod.GET,entity, String.class);
-        String expected =  "[{id: 3, price: null, description: null, time: null, artist: {id:1,bandName:\"Xiaoling\", description: \"Coming from China\"," +
-                "artist_category:null}, concertHall: {hallName: \"Johan Cruijff ArenA\", street: \"AmersterdamStreet\", number: 1,city: \"Amsterdam\", phone: \"030-12345\"," +
-                "capacity: 500000, openAir: true}, concert_ticketList:[]}]";
+        String expected =  "[{id: 3, price: 200.00, description: \"Xiang shang kan\", time: \"01/01/2022\", artist: {id:1,bandName:\"Xiaoling\", description: \"Coming from China\"}, concertHall: {hallName: \"Johan Cruijff ArenA\", street: \"AmersterdamStreet\", number: 1,city: \"Amsterdam\", phone: \"030-12345\"," +
+                "capacity: 500000, openAir: true}}]";
         JSONAssert.assertEquals(expected, response.getBody(), false);
         AssertionsForClassTypes.assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
     }
@@ -154,7 +153,7 @@ class ConcertControllerIntegrationTest {
         artistService.addArtist(artist);
         concertHallService.addConcertHall(concertHall1);
 
-        HttpEntity<String> entity = new HttpEntity<>(null, headers);
+        HttpEntity<Concert> entity = new HttpEntity<>(concert1, headers);
         ResponseEntity<String> response = testRestTemplate.exchange(
                 createURLWithPort("/concert/addconcert/1/2"),
                 HttpMethod.POST, entity, String.class);
@@ -164,10 +163,11 @@ class ConcertControllerIntegrationTest {
 
     }
     @Test
-    void testUpdateConcertByArtistIdAndConcertHallId() throws Exception {
+    void testUpdateConcertById() throws Exception {
+
         artistService.addArtist(artist);
         concertHallService.addConcertHall(concertHall1);
-        concertService.addConcertHallToArtist(artist.getId(), concertHall1.getId());
+        concertService.addConcertHallToArtist(artist.getId(), concertHall1.getId(), concert1);
 
         Concert updateConcert = new Concert();
         updateConcert.setPrice(1000.00);
@@ -176,9 +176,9 @@ class ConcertControllerIntegrationTest {
 
         HttpEntity<Concert> entity = new HttpEntity<>(updateConcert, headers);
         ResponseEntity<String> response = testRestTemplate.exchange(
-                createURLWithPort("/concert/updateconcertinfo/1/2"),
+                createURLWithPort("/concert/updateConcert/3"),
                 HttpMethod.PUT, entity, String.class);
-        String expected = "The Concert is successfully updated.";
+        String expected = "The concert is successfully updated.";
         AssertionsForClassTypes.assertThat(expected).isEqualTo(response.getBody());
         AssertionsForClassTypes.assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
     }
@@ -187,7 +187,7 @@ class ConcertControllerIntegrationTest {
     void deleteConcertById() {
         artistService.addArtist(artist);
         concertHallService.addConcertHall(concertHall1);
-        concertService.addConcertHallToArtist(artist.getId(), concertHall1.getId());
+        concertService.addConcertHallToArtist(artist.getId(), concertHall1.getId(), concert1);
 
         HttpEntity<String> entity = new HttpEntity<>(null, headers);
         ResponseEntity<String> response = testRestTemplate.exchange(

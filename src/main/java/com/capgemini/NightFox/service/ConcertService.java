@@ -65,55 +65,36 @@ public class ConcertService {
                 "Artist name: " + bandName + "does not exist.");
     }
 
-    public void addConcertHallToArtist(Long artistId, Long concertHallId) {
+    public void addConcertHallToArtist(Long artistId, Long concertHallId, Concert concert) {
         ConcertHall concertHall = concertHallRepository.findById(concertHallId).orElseThrow(() -> new NotFoundException("Concert hall does not exist."));
         Artist artist = artistRepository.findById(artistId).orElseThrow(() -> new NotFoundException("Artist does not exist."));
 
-        Optional<Concert> concert = concertRepository.findByArtistAndConcertHall(artist, concertHall);
-        if (concert.isPresent()) {
+        Optional<Concert> oncertDB = concertRepository.findByArtistAndConcertHall(artist, concertHall);
+        if (oncertDB.isPresent()) {
             throw new BadRequestException("This concert hall is already added to the artist.");
         }else{
             Concert concert_added = new Concert(artist, concertHall);
             concert_added.setArtist(artist);
             concert_added.setConcertHall(concertHall);
+            concert_added.setTime(concert.getTime());
+            concert_added.setPrice(concert.getPrice());
+            concert_added.setDescription(concert.getDescription());
+            concert_added.setTime(concert.getTime());
             concertRepository.save(concert_added);
-        }
-
-
-    }
-
-    public void addConcertDetailedInfo(Long artistId, Long concertHallId, Concert dataConcert){
-        ConcertHall concertHall = concertHallRepository.findById(concertHallId).orElseThrow(() -> new NotFoundException("Concert hall does not exist."));
-        Artist artist = artistRepository.findById(artistId).orElseThrow(() -> new NotFoundException("Artist does not exist."));
-
-        Optional<Concert> concert = concertRepository.findByArtistAndConcertHall(artist, concertHall);
-        if(concert.isPresent()){
-            concert.get().setPrice(dataConcert.getPrice());
-            concert.get().setDescription(dataConcert.getDescription());
-            concert.get().setTime(dataConcert.getTime());
             return;
-        }else{
-            throw new NotFoundException(
-                    "The concert does not exist.");
-
         }
+    }
+    public void updateConcertById(Long concertId, Concert dataConcert){
+        Concert concert = concertRepository.findById(concertId).orElseThrow(() -> new NotFoundException("Concert does not exist."));
+
+        concert.setPrice(dataConcert.getPrice());
+        concert.setDescription(dataConcert.getDescription());
+        concert.setTime(dataConcert.getTime());
+
+        return;
 
     }
 
-//    public ResponseEntity<?> addConcertDetailedInfo(Long artistId, Long concertHallId, Concert dataConcert) {
-//        ConcertHall concertHall = concertHallRepository.findConcert_HallById(concertHallId);
-//        Optional<Artist> possibleArtist = artistRepository.findById(artistId);
-//        if (possibleArtist.isPresent()) {
-//            Concert concert = concertRepository.findByArtistAndConcertHall(possibleArtist.get(), concertHall);
-//            concert.setPrice(dataConcert.getPrice());
-//            concert.setTime(dataConcert.getTime());
-//            concert.setDescription(dataConcert.getDescription());
-//            concertRepository.save(concert);
-//            return ResponseEntity.ok().body("Concert information is updated.");
-//        }
-//        throw new NotFoundException(
-//                "The artist id: " + artistId + "does not exist.");
-//    }
 
 
     public void deleteConcertById(Long artistId, Long concertHallId){
@@ -130,17 +111,7 @@ public class ConcertService {
 
 
     }
-//
-//    public ResponseEntity<?> deleteConcertById(Long artistId, Long concertHallId) {
-//        ConcertHall concertHall = concertHallRepository.findConcert_HallById(concertHallId);
-//        Optional<Artist> possibleArtist = artistRepository.findById(artistId);
-//        if (possibleArtist.isPresent()) {
-//            concertRepository.deleteByArtistAndConcertHall(possibleArtist.get(), concertHall);
-//            return ResponseEntity.ok().body("Concert successfully deleted.");
-//        }
-//        throw new NotFoundException(
-//                "The artist id: " + artistId + "does not exist.");
-//    }
+
 
 
 }
