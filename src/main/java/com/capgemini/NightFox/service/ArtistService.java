@@ -32,6 +32,16 @@ public class ArtistService {
         return artistList;
     }
 
+    public void checkArtistIsExistsByArtistId(Long id) {
+
+        if(artistRepository.existsById(id)){
+            return;
+        }else{
+           throw new NotFoundException(
+                   "Artist id: " + id + "does not exist.");
+        }
+    }
+
     public void addArtist(Artist artist) {
         boolean existsName = artistRepository.existsByBandName(artist.getBandName());
         if(existsName){
@@ -92,7 +102,6 @@ public class ArtistService {
         }
 
     }
-
 
 
 

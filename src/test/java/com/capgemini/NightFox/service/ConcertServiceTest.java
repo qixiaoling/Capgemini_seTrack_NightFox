@@ -108,14 +108,6 @@ class ConcertServiceTest {
     void ShouldReturnConcertListIfArtistBandNameExists() {
 
         when(artistRepository.findByBandName("Xiaoling")).thenReturn(Optional.of(artist));
-//        when(concertHallRepository.existsById(2L)).thenReturn(true);
-//        when(concertHallRepository.existsById(3L)).thenReturn(true);
-
-//       when(concertRepository.findByArtistAndConcertHall(artist, concertHall1)).thenReturn(Optional.of(concert1));
-//       when(concertRepository.findByArtistAndConcertHall(artist, concertHall2)).thenReturn(Optional.of(concert2));
-
-//        List<Concert> concertList = underTest.getAllConcertsByArtistBandName("Xiaoling");
-//        AssertionsForClassTypes.assertThat(concertList.size()).isEqualTo(2);
 
         underTest.getAllConcertsByArtistBandName("Xiaoling");
         verify(concertRepository).findByArtist(artist);

@@ -24,6 +24,13 @@ public class ArtistController {
         return ResponseEntity.ok().body(artistService.getAllArtist());
     }
 
+    @GetMapping("/checkExists/{artistId}")
+    public ResponseEntity<?> checkArtistIsExistsByArtistId(@PathVariable("artistId") Long id){
+       artistService.checkArtistIsExistsByArtistId(id);
+       return ResponseEntity.ok().body("The artist id does exist.");
+
+    }
+
     @GetMapping("/getbyid/{artistId}")
     public ResponseEntity<?> getArtistById(@PathVariable("artistId") Long id){
 

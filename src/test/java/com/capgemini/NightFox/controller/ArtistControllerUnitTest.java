@@ -58,6 +58,14 @@ class ArtistControllerUnitTest {
         JSONAssert.assertEquals(expected, contentAsString, false);
 
     }
+    @Test
+    void givenArtistDoesExist_whenCheckArtistByArtistId_thenReturnString() throws Exception {
+
+        mockMvc.perform(get("/artist/checkExists/{artistId}", 1L)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+
+    }
 
     @Test
     void givenArtists_whenGetArtistsById_thenReturnArtist() throws Exception {
