@@ -48,6 +48,12 @@ public class ConcertController {
         return ResponseEntity.ok("The Concert is added to the artist.");
     }
 
+    @PutMapping("/updateConcert/{concertId}")
+    public ResponseEntity<?> updateConcert(@PathVariable("concertId") Long concertId,
+                                           @RequestBody Concert concert) {
+        concertService.updateConcertById(concertId, concert);
+        return ResponseEntity.ok("The concert is updated.");
+    }
 
     @DeleteMapping("/delete/{artistId}/{concerthallId}")
     public ResponseEntity<?> deleteConcertById(@PathVariable("artistId") Long artistId,

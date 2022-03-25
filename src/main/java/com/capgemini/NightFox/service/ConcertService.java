@@ -84,6 +84,17 @@ public class ConcertService {
             return;
         }
     }
+    public void updateConcertById(Long concertId, Concert dataConcert){
+        Concert concert = concertRepository.findById(concertId).orElseThrow(() -> new NotFoundException("Concert does not exist."));
+
+        concert.setPrice(dataConcert.getPrice());
+        concert.setDescription(dataConcert.getDescription());
+        concert.setTime(dataConcert.getTime());
+
+        return;
+
+    }
+
 
 
     public void deleteConcertById(Long artistId, Long concertHallId){
