@@ -162,6 +162,26 @@ class ConcertControllerIntegrationTest {
         AssertionsForClassTypes.assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
 
     }
+    @Test
+    void testUpdateConcertById() throws Exception {
+
+        artistService.addArtist(artist);
+        concertHallService.addConcertHall(concertHall1);
+        concertService.addConcertHallToArtist(artist.getId(), concertHall1.getId(), concert1);
+
+        Concert updateConcert = new Concert();
+        updateConcert.setPrice(1000.00);
+        updateConcert.setDescription("2022");
+        updateConcert.setTime(LocalDate.now());
+
+        HttpEntity<Concert> entity = new HttpEntity<>(updateConcert, headers);
+        ResponseEntity<String> response = testRestTemplate.exchange(
+                createURLWithPort("/concert/updateConcert/3"),
+                HttpMethod.PUT, entity, String.class);
+        String expected = "The concert is successfully updated.";
+        AssertionsForClassTypes.assertThat(expected).isEqualTo(response.getBody());
+        AssertionsForClassTypes.assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+    }
 
     @Test
     void deleteConcertById() {

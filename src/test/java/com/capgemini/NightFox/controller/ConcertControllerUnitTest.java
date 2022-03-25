@@ -70,6 +70,7 @@ class ConcertControllerUnitTest {
         concertHall2.setOpenAir(false);
 
         concert1 = new Concert(artist, concertHall1);
+        concert1.setId(4L);
         concert1.setPrice(200.00);
         concert1.setDescription("Xiang shang kan");
         concert1.setTime(LocalDate.of(2022, 01, 01));
@@ -85,7 +86,7 @@ class ConcertControllerUnitTest {
     void givenConcerts_whenGetConcerts_thenReturnJsonArray() throws  Exception{
         List<Concert> concertList =  Arrays.asList(concert1);
         when(concertService.getAllConcerts()).thenReturn(concertList);
-        String expected =  "[{id: null, price: 200.00, description: \"Xiang shang kan\", time: \"01/01/2022\", artist: {id:1,bandName:\"Xiaoling\", description: \"Coming from China\"}, concertHall: {hallName: \"Johan Cruijff ArenA\", street: \"AmersterdamStreet\", number: 1,city: \"Amsterdam\", phone: \"030-12345\"," +
+        String expected =  "[{id: 4, price: 200.00, description: \"Xiang shang kan\", time: \"01/01/2022\", artist: {id:1,bandName:\"Xiaoling\", description: \"Coming from China\"}, concertHall: {hallName: \"Johan Cruijff ArenA\", street: \"AmersterdamStreet\", number: 1,city: \"Amsterdam\", phone: \"030-12345\"," +
                 "capacity: 500000, openAir: true}}]";
         MvcResult mvcResult = mockMvc.perform(get("/concert/getall")
                         .contentType(MediaType.APPLICATION_JSON))
@@ -118,31 +119,32 @@ class ConcertControllerUnitTest {
                 .perform(
                         post("/concert/addconcert/{artistId}/{concerthallId}", 1L, 2L)
                                 .contentType(MediaType.APPLICATION_JSON)
+                                .content("{\"price\":1000.00, \"description\": \"2022\", \"time\": \"01/01/2022\"}")
                 )
                 .andExpect(status().isOk());
     }
-//    @Test
-//    void updateConcertById_whenNewConcertIsGiven_returnStatusOk() throws Exception {
-//        mockMvc
-//                .perform(
-//                        put("/concert/updateconcertinfo/{artistId}/{concerthallId}", 1L, 2L)
-//                                .contentType(MediaType.APPLICATION_JSON)
-//                                .content("{\"price\":1000.00, \"description\": \"2022\", \"time\": \"01/01/2022\"}")
-//                )
-//                .andExpect(status().isOk());
-//    }
-//
-//    @Test
-//    void updateConcertById_whenNewConcertIsNull_returnBadRequest() throws Exception {
-//        //status is 200???
-//        mockMvc
-//                .perform(
-//                        put("/concert/updateconcertinfo/{artistId}/{concerthallId}", 1L, 2L)
-//                                .contentType(MediaType.APPLICATION_JSON)
-//                                .content("{}")
-//                )
-//                .andExpect(status().isBadRequest());
-//    }
+    @Test
+    void updateConcertById_whenNewConcertIsGiven_returnStatusOk() throws Exception {
+        mockMvc
+                .perform(
+                        put("/concert/updateConcert/{concertId}", 4L)
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content("{\"price\":1000.00, \"description\": \"2022\", \"time\": \"01/01/2022\"}")
+                )
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    void updateConcertById_whenNewConcertIsNull_returnBadRequest() throws Exception {
+        //status is 200???
+        mockMvc
+                .perform(
+                        put("/concert/updateConcert/{concertId}", 4L)
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content("{}")
+                )
+                .andExpect(status().isBadRequest());
+    }
 
     @Test
     void deleteConcertById_whenArtisIdAndConcertHallIdAreGiven() throws  Exception{

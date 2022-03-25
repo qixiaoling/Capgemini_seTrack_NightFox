@@ -42,7 +42,7 @@ public class ConcertController {
     @PostMapping("/addconcert/{artistId}/{concerthallId}")
     public ResponseEntity<?> addConcertHallToArtist(@PathVariable("artistId") Long artistId,
                                                     @PathVariable("concerthallId") Long concerthallId,
-                                                    @RequestBody Concert concert) {
+                                                    @Valid @RequestBody Concert concert) {
 
         concertService.addConcertHallToArtist(artistId, concerthallId, concert);
         return ResponseEntity.ok("The Concert is added to the artist.");
@@ -50,9 +50,9 @@ public class ConcertController {
 
     @PutMapping("/updateConcert/{concertId}")
     public ResponseEntity<?> updateConcert(@PathVariable("concertId") Long concertId,
-                                           @RequestBody Concert concert) {
+                                           @Valid @RequestBody Concert concert) {
         concertService.updateConcertById(concertId, concert);
-        return ResponseEntity.ok("The concert is updated.");
+        return ResponseEntity.ok("The concert is successfully updated.");
     }
 
     @DeleteMapping("/delete/{artistId}/{concerthallId}")
