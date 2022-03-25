@@ -35,8 +35,6 @@ public class Concert {
     @ManyToOne (fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private ConcertHall concertHall;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "concert")
-    private List<Concert_Ticket> concert_ticketList = new ArrayList<>();
 
     public Concert() {
     }
@@ -94,11 +92,5 @@ public class Concert {
         this.concertHall = concertHall;
     }
 
-    public List<Concert_Ticket> getConcert_ticketList() {
-        return concert_ticketList;
-    }
 
-    public void setConcert_ticketList(List<Concert_Ticket> concert_ticketList) {
-        this.concert_ticketList = concert_ticketList;
-    }
 }

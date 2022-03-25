@@ -18,12 +18,7 @@ public class Artist {
     @Size(min = 3, max = 20)
     private String bandName;
     private String description;
-    @JsonIgnore
-    @OneToMany(mappedBy = "artist")
-    private List<Review> reviews = new ArrayList<>();
 
-    @ManyToOne
-    private Artist_Category artist_category;
 
     @OneToMany(mappedBy = "artist")
     private List<Artist_Images> artist_imagesList = new ArrayList<>();
@@ -64,14 +59,6 @@ public class Artist {
         this.description = description;
     }
 
-    public Artist_Category getArtist_category() {
-        return artist_category;
-    }
-
-    public void setArtist_category(Artist_Category artist_category) {
-        this.artist_category = artist_category;
-    }
-
     public List<Artist_Images> getArtist_imagesList() {
         return artist_imagesList;
     }
@@ -88,11 +75,4 @@ public class Artist {
         this.concerts = concerts;
     }
 
-    public List<Review> getReviews() {
-        return reviews;
-    }
-
-    public void setReviews(List<Review> reviews) {
-        this.reviews = reviews;
-    }
 }

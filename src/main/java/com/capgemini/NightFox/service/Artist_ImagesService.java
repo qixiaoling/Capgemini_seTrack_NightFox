@@ -4,15 +4,12 @@ import com.capgemini.NightFox.Exception.NotFoundException;
 import com.capgemini.NightFox.model.Artist;
 import com.capgemini.NightFox.model.Artist_Images;
 import com.capgemini.NightFox.repository.ArtistRepository;
-import com.capgemini.NightFox.repository.Artist_ImageRepository;
-import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.net.NoRouteToHostException;
 import java.util.List;
 import java.util.Optional;
 
