@@ -24,20 +24,22 @@ public class Artist_ImagesService {
         this.artistRepository = artistRepository;
     }
 
-    public ResponseEntity<?> addArtist_ImagesToArtist(Long artistId, MultipartFile file) throws IOException{
-        try{
+    public void addArtist_ImagesToArtist(Long artistId, MultipartFile file) throws IOException{
+//        try{
             Optional<Artist> possibleArtist = artistRepository.findById(artistId);
             if(possibleArtist.isPresent()){
                 String fileName = file.getOriginalFilename();
                 Artist_Images images = new Artist_Images(fileName, file.getContentType(), file.getBytes());
                 images.setArtist(possibleArtist.get());
                 artist_imageRepository.save(images);
+                return;
+            }else{
+                throw new NotFoundException(
+                        "Artis id: " + artistId + "does not exists.");
             }
-            throw new NotFoundException(
-                    "Artis id: " + artistId + "does not exists.");
-        }catch(IOException e){
-            return ResponseEntity.badRequest().body("The file does not exist.");
-        }
+//        }catch(IOException e){
+//            return ResponseEntity.badRequest().body("The file does not exist.");
+//        }
     }
 
     public ResponseEntity<?> getArtist_ImageById(Long imageId) {

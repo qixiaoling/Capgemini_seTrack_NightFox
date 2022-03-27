@@ -1,6 +1,7 @@
 package com.capgemini.NightFox.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.yaml.snakeyaml.events.Event;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -9,14 +10,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table
+@Table (name= "artist")
 public class Artist {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @Column
     private Long id;
     @NotBlank  (message = "Band name is mandatory.")
     @Size(min = 3, max = 20)
+    @Column
     private String bandName;
+    @Column
     private String description;
 
 
