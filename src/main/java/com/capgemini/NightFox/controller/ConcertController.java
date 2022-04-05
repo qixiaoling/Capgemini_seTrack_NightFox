@@ -4,12 +4,13 @@ import com.capgemini.NightFox.model.Artist;
 import com.capgemini.NightFox.model.Concert;
 import com.capgemini.NightFox.model.ConcertHall;
 import com.capgemini.NightFox.service.ConcertService;
+import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-
+@CrossOrigin(origins ="http://localhost:4200")
 @RestController
 @RequestMapping("/concert")
 public class ConcertController {
@@ -25,6 +26,10 @@ public class ConcertController {
     public ResponseEntity<?> getAllConcerts(){
 
         return ResponseEntity.ok().body(concertService.getAllConcerts());
+    }
+    @GetMapping("/getbyconcertid/{concertId}")
+    public ResponseEntity<?> getConcertByConcertId(@PathVariable ("concertId") Long concertId){
+        return ResponseEntity.ok().body(concertService.getConcertByConcertId(concertId));
     }
 
     @GetMapping("/getbyid/{artistId}")

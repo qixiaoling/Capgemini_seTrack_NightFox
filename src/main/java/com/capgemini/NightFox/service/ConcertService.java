@@ -38,6 +38,15 @@ public class ConcertService {
         return concerts;
     }
 
+    public Concert getConcertByConcertId(Long id){
+        Optional <Concert> possibleConcert = concertRepository.findById(id);
+        if(possibleConcert.isPresent()){
+            return possibleConcert.get();
+        }
+        throw new NotFoundException(
+                "Concert does not exist.");
+    }
+
     public List<Concert>  getAllConcertsByArtistId(Long id) {
         Optional<Artist> possibleArtist = artistRepository.findById(id);
         if (possibleArtist.isPresent()) {
