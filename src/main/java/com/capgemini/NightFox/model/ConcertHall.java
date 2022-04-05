@@ -31,6 +31,7 @@ public class ConcertHall {
     private List<Concert> concerts = new ArrayList<>();
 
     public ConcertHall() {
+        System.out.println();
     }
 
     public ConcertHall(String hallName, String street, Integer number, String city, String phone,

@@ -94,7 +94,7 @@ public class Concert {
         return concertHall;
     }
 
-    public void setConcertHall(ConcertHall concert_hall) {
+    public void setConcertHall(ConcertHall concertHall) {
         this.concertHall = concertHall;
     }
 
