@@ -123,7 +123,7 @@ class ConcertServiceTest {
     }
 
     @Test
-    void addConcert() {
+    void addConcert() throws Exception{
         Mockito.when(artistRepository.existsById(1L)).thenReturn(true);
         Mockito.when(concertHallRepository.existsById(2L)).thenReturn(true);
         underTest.addConcert(concert1);

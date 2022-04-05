@@ -91,26 +91,28 @@ public class ConcertService {
 //            throw new NotFoundException(
 //                    "Artist id: " + concert.getArtist().getId() + "is not found.");
 //        }
-        URL validationUrlArtist = new URL(String.format("http://localhost:8082/artist/checkExists"+ concert.getArtist().getId().toString()));
-        HttpURLConnection connectionArtist = (HttpURLConnection)validationUrlArtist.openConnection();
-        URL validationUrlConcertHall = new URL(String.format("http://localhost:8082/concerthall/checkExists"+ concert.getConcertHall().getId().toString()));
-        HttpURLConnection connectionConcertHall = (HttpURLConnection)validationUrlConcertHall.openConnection();
 
-        if(connectionArtist.getResponseCode() == HttpURLConnection.HTTP_OK && connectionConcertHall.getResponseCode() == HttpURLConnection.HTTP_OK){
-            concertRepository.saveAndFlush(concert);
-            return;
-        }
-        else{
-            if(connectionArtist.getResponseCode() != HttpURLConnection.HTTP_OK){
-                throw new NotFoundException("This artist id: " + concert.getArtist().getId() + "does not exist.");
-            }
-            if(connectionConcertHall.getResponseCode() != HttpURLConnection.HTTP_OK){
-                throw new NotFoundException("This concert hall id: " + concert.getConcertHall().getId() + "does not exist.");
-            }
-        }
+        // temporary fix
+        concertRepository.saveAndFlush(concert);
+        return;
 
-
-
+//        URL validationUrlArtist = new URL(String.format("http://localhost:8082/artist/checkExists"+ concert.getArtist().getId().toString()));
+//        HttpURLConnection connectionArtist = (HttpURLConnection)validationUrlArtist.openConnection();
+//        URL validationUrlConcertHall = new URL(String.format("http://localhost:8082/concerthall/checkExists"+ concert.getConcertHall().getId().toString()));
+//        HttpURLConnection connectionConcertHall = (HttpURLConnection)validationUrlConcertHall.openConnection();
+//
+//        if(connectionArtist.getResponseCode() == HttpURLConnection.HTTP_OK && connectionConcertHall.getResponseCode() == HttpURLConnection.HTTP_OK){
+//            concertRepository.saveAndFlush(concert);
+//            return;
+//        }
+//        else{
+//            if(connectionArtist.getResponseCode() != HttpURLConnection.HTTP_OK){
+//                throw new NotFoundException("This artist id: " + concert.getArtist().getId() + "does not exist.");
+//            }
+//            if(connectionConcertHall.getResponseCode() != HttpURLConnection.HTTP_OK){
+//                throw new NotFoundException("This concert hall id: " + concert.getConcertHall().getId() + "does not exist.");
+//            }
+//        }
     }
     public void updateConcertById(Long concertId, Concert dataConcert){
         Concert concert = concertRepository.findById(concertId).orElseThrow(() -> new NotFoundException("Concert does not exist."));

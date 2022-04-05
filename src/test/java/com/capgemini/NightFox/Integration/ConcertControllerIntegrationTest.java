@@ -24,6 +24,7 @@ import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.*;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.io.IOException;
 import java.time.LocalDate;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -180,7 +181,7 @@ class ConcertControllerIntegrationTest {
     }
 
     @Test
-    void deleteConcertById() {
+    void deleteConcertById() throws IOException {
         artistService.addArtist(artist);
         concertHallService.addConcertHall(concertHall1);
         concertService.addConcert(concert1);

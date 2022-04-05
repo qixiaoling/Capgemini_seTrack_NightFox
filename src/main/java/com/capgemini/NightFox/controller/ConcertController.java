@@ -10,6 +10,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.io.IOException;
+
 @CrossOrigin(origins ="http://localhost:4200")
 @RestController
 @RequestMapping("/concert")
@@ -45,7 +47,7 @@ public class ConcertController {
         return ResponseEntity.ok().body(concertService.getAllConcertsByArtistBandName(bandName));
     }
     @PostMapping("/addconcert")
-    public ResponseEntity<?> addConcert(@Valid @RequestBody Concert concert) {
+    public ResponseEntity<?> addConcert(@Valid @RequestBody Concert concert) throws IOException {
 
         concertService.addConcert(concert);
         return ResponseEntity.ok("The Concert is added to the artist.");
