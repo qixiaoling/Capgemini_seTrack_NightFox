@@ -13,6 +13,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -74,24 +77,40 @@ public class ConcertService {
                 "Artist name: " + bandName + "does not exist.");
     }
 
-    public void addConcertHallToArtist(Long artistId, Long concertHallId, Concert concert) {
-        ConcertHall concertHall = concertHallRepository.findById(concertHallId).orElseThrow(() -> new NotFoundException("Concert hall does not exist."));
-        Artist artist = artistRepository.findById(artistId).orElseThrow(() -> new NotFoundException("Artist does not exist."));
+    public void addConcert(Concert concert) throws IOException {
+//        Boolean concertHallExist = concertHallRepository.existsById(concert.getConcertHall().getId());
+//        Boolean artistExist = artistRepository.existsById(concert.getArtist().getId());
+//
+//        if (concertHallExist && artistExist) {
+//            concertRepository.saveAndFlush(concert);
+//            return;
+//        } else if(!concertHallExist){
+//            throw new NotFoundException(
+//                    "Concert hall id: " + concert.getConcertHall().getId() + "is not found.");
+//        } else {
+//            throw new NotFoundException(
+//                    "Artist id: " + concert.getArtist().getId() + "is not found.");
+//        }
+        URL validationUrlArtist = new URL(String.format("http://localhost:8082/artist/checkExists"+ concert.getArtist().getId().toString()));
+        HttpURLConnection connectionArtist = (HttpURLConnection)validationUrlArtist.openConnection();
+        URL validationUrlConcertHall = new URL(String.format("http://localhost:8082/concerthall/checkExists"+ concert.getConcertHall().getId().toString()));
+        HttpURLConnection connectionConcertHall = (HttpURLConnection)validationUrlConcertHall.openConnection();
 
-        Optional<Concert> oncertDB = concertRepository.findByArtistAndConcertHall(artist, concertHall);
-        if (oncertDB.isPresent()) {
-            throw new BadRequestException("This concert hall is already added to the artist.");
-        }else{
-            Concert concert_added = new Concert(artist, concertHall);
-            concert_added.setArtist(artist);
-            concert_added.setConcertHall(concertHall);
-            concert_added.setTime(concert.getTime());
-            concert_added.setPrice(concert.getPrice());
-            concert_added.setDescription(concert.getDescription());
-            concert_added.setTime(concert.getTime());
-            concertRepository.save(concert_added);
+        if(connectionArtist.getResponseCode() == HttpURLConnection.HTTP_OK && connectionConcertHall.getResponseCode() == HttpURLConnection.HTTP_OK){
+            concertRepository.saveAndFlush(concert);
             return;
         }
+        else{
+            if(connectionArtist.getResponseCode() != HttpURLConnection.HTTP_OK){
+                throw new NotFoundException("This artist id: " + concert.getArtist().getId() + "does not exist.");
+            }
+            if(connectionConcertHall.getResponseCode() != HttpURLConnection.HTTP_OK){
+                throw new NotFoundException("This concert hall id: " + concert.getConcertHall().getId() + "does not exist.");
+            }
+        }
+
+
+
     }
     public void updateConcertById(Long concertId, Concert dataConcert){
         Concert concert = concertRepository.findById(concertId).orElseThrow(() -> new NotFoundException("Concert does not exist."));

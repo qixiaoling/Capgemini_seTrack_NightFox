@@ -23,6 +23,13 @@ public class ConcertHallController {
         return ResponseEntity.ok().body(concertHallService.getAllConcertHalls());
     }
 
+    @GetMapping("/checkExists/{concertHallId}")
+    public ResponseEntity<?> checkConcertHallIsExistsByConcertHallId(@PathVariable("concertHallId") Long id){
+        concertHallService.checkConcertHallIsExistsByConcertHallId(id);
+        return ResponseEntity.ok().body("The concert hall id does exist.");
+
+    }
+
     @GetMapping("/getbyid/{concerthallId}")
     public ResponseEntity<?> getConcertHallById(@PathVariable("concerthallId") Long id){
 

@@ -44,12 +44,10 @@ public class ConcertController {
 
         return ResponseEntity.ok().body(concertService.getAllConcertsByArtistBandName(bandName));
     }
-    @PostMapping("/addconcert/{artistId}/{concerthallId}")
-    public ResponseEntity<?> addConcertHallToArtist(@PathVariable("artistId") Long artistId,
-                                                    @PathVariable("concerthallId") Long concerthallId,
-                                                    @Valid @RequestBody Concert concert) {
+    @PostMapping("/addconcert")
+    public ResponseEntity<?> addConcert(@Valid @RequestBody Concert concert) {
 
-        concertService.addConcertHallToArtist(artistId, concerthallId, concert);
+        concertService.addConcert(concert);
         return ResponseEntity.ok("The Concert is added to the artist.");
     }
 

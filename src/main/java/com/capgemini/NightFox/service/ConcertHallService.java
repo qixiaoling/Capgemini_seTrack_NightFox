@@ -25,6 +25,15 @@ public class ConcertHallService {
         concertHallRepository.findAll().forEach(concertHalls::add);
         return concertHalls;
     }
+    public void checkConcertHallIsExistsByConcertHallId(Long id) {
+
+        if(concertHallRepository.existsById(id)){
+            return;
+        }else{
+            throw new NotFoundException(
+                    "Concert hall id: " + id + "does not exist.");
+        }
+    }
 
     public void addConcertHall(ConcertHall concertHall) {
         boolean existName = concertHallRepository.existsByHallName(concertHall.getHallName());

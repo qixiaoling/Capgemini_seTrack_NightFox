@@ -123,10 +123,10 @@ class ConcertServiceTest {
     }
 
     @Test
-    void addConcertHallToArtist() {
-        Mockito.when(artistRepository.findById(1L)).thenReturn(Optional.of(artist));
-        Mockito.when(concertHallRepository.findById(2L)).thenReturn(Optional.of(concertHall1));
-        underTest.addConcertHallToArtist(1L, 2L, concert1);
+    void addConcert() {
+        Mockito.when(artistRepository.existsById(1L)).thenReturn(true);
+        Mockito.when(concertHallRepository.existsById(2L)).thenReturn(true);
+        underTest.addConcert(concert1);
         verify(concertRepository).save(concert1);
     }
 
